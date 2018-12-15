@@ -170,7 +170,7 @@
   <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">文章目录</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用-supervisor-管理进程"><span class="toc-text">使用 supervisor 管理进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#supervisor-配置"><span class="toc-text">supervisor 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加自己的程序"><span class="toc-text">添加自己的程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-管理界面"><span class="toc-text">web 管理界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-supervisorctl"><span class="toc-text">使用 supervisorctl</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#supervisor-配置"><span class="toc-text">supervisor 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加自己的程序"><span class="toc-text">添加自己的程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-管理界面"><span class="toc-text">web 管理界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-supervisorctl"><span class="toc-text">使用 supervisorctl</span></a></li></ol>
     </div>
   </div>
 
@@ -178,7 +178,7 @@
 
     <div class="post-content">
       
-        <h1 id="使用-supervisor-管理进程"><a href="#使用-supervisor-管理进程" class="headerlink" title="使用 supervisor 管理进程"></a>使用 supervisor 管理进程</h1><p>Supervisor (<a href="http://supervisord.org/" target="_blank" rel="noopener">http://supervisord.org</a>) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以用 supervisor 同时启动所有应用程序而不是一个一个地敲命令启动。</p>
+        <p>Supervisor (<a href="http://supervisord.org/" target="_blank" rel="noopener">http://supervisord.org</a>) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以用 supervisor 同时启动所有应用程序而不是一个一个地敲命令启动。</p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>服务器我采用的是 Ubuntu 系统，所以使用 apt-get 安装</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install supervisor</span><br></pre></td></tr></table></figure>
 <h3 id="supervisor-配置"><a href="#supervisor-配置" class="headerlink" title="supervisor 配置"></a>supervisor 配置</h3><p>安装完成之后，配置文件在 Ubuntu 系统中的位置是 <strong>/etc/supervisor/supervisor.conf</strong>，如果配置文件不存在，可以使用命令<strong>echo supervisord_conf</strong>命令输出默认配置，也可以重定向到一个配置文件里：</p>
@@ -196,9 +196,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl -c /etc/supervisord/supervisord.conf</span><br></pre></td></tr></table></figure>
 <p>上面这个命令会进入 supervisorctl 的 shell 界面，然后可以执行不同的命令了：</p>
 <blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> status    # 查看程序状态</span><br><span class="line"><span class="meta">&gt;</span> stop usercenter   # 关闭 usercenter 程序</span><br><span class="line"><span class="meta">&gt;</span> start usercenter  # 启动 usercenter 程序</span><br><span class="line"><span class="meta">&gt;</span> restart usercenter    # 重启 usercenter 程序</span><br><span class="line"><span class="meta">&gt;</span> reread    ＃ 读取有更新（增加）的配置文件，不会启动新添加的程序</span><br><span class="line"><span class="meta">&gt;</span> update    ＃ 重启配置文件修改过的程序</span><br><span class="line"><span class="meta">&gt;</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-15-125846.png" alt=""></p>
 </blockquote>
 
       
