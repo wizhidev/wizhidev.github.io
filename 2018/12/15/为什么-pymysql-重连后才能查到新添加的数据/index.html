@@ -17,8 +17,12 @@
 
 
 
+  <meta name="description" content="为什么 pymysql 重连后才能查到新添加的数据">
 
 
+
+
+  <meta name="keywords" content="pymysql, PP小猪窝">
 
 
 
@@ -38,7 +42,7 @@
 
 
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/">
 
 
 
@@ -86,7 +90,7 @@
   window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":true};
 </script>
 
-    <title> PP小猪窝 </title>
+    <title> 为什么 pymysql 重连后才能查到新添加的数据 - PP小猪窝 </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -216,15 +220,11 @@
           <div id="content" class="content">
             
   
-  <section id="posts" class="posts">
-    
-      
-        
   <article class="post">
     <header class="post-header">
       <h1 class="post-title">
         
-          <a class="post-link" href="/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/">为什么 pymysql 重连后才能查到新添加的数据</a>
+          为什么 pymysql 重连后才能查到新添加的数据
         
       </h1>
 
@@ -239,15 +239,18 @@
 
     
     
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景描述"><span class="toc-text">背景描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#还原问题"><span class="toc-text">还原问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询代码"><span class="toc-text">查询代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询结果"><span class="toc-text">查询结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法"><span class="toc-text">解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#第一种方案，每次查询后进行commit操作"><span class="toc-text">第一种方案，每次查询后进行commit操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#第二种方案，创建connect连接时，autocommit-True，自动进行commit提交"><span class="toc-text">第二种方案，创建connect连接时，autocommit=True，自动进行commit提交</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#第三种方案，关闭数据库的事务（不建议选择这项操作）"><span class="toc-text">第三种方案，关闭数据库的事务（不建议选择这项操作）</span></a></li></ol></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#原因分析"><span class="toc-text">原因分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库事务"><span class="toc-text">数据库事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四个隔离级别"><span class="toc-text">四个隔离级别</span></a></li>
+    </div>
+  </div>
+
 
 
     <div class="post-content">
       
-        
-        
-
-        
-          <h3 id="背景描述"><a href="#背景描述" class="headerlink" title="背景描述"></a>背景描述</h3><p>项目中需要定时查询最新的环境采集数据，然后推送到 web 页面展示。</p>
+        <h3 id="背景描述"><a href="#背景描述" class="headerlink" title="背景描述"></a>背景描述</h3><p>项目中需要定时查询最新的环境采集数据，然后推送到 web 页面展示。</p>
 <h3 id="还原问题"><a href="#还原问题" class="headerlink" title="还原问题"></a>还原问题</h3><ol>
 <li>在 python 中使用了 pymsql 操作 mysql 数据库。</li>
 <li>查询数据的时候，从数据库中读取一条数据之后，后面查到的数据永远不变。</li>
@@ -309,227 +312,70 @@
 <p>这是最高的隔离级别<br>它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之, 它是在每个读的数据行上加上共享锁。<br>在这个级别，可能导致大量的超时现象和锁竞争</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#首先修改隔离界别</span><br><span class="line">set tx_isolation=&apos;serializable&apos;;</span><br><span class="line">select @@tx_isolation;</span><br><span class="line">+----------------+</span><br><span class="line">| @@tx_isolation |</span><br><span class="line">+----------------+</span><br><span class="line">| SERIALIZABLE   |</span><br><span class="line">+----------------+</span><br><span class="line"></span><br><span class="line">#事务A：开启一个新事务</span><br><span class="line">start transaction;</span><br><span class="line"></span><br><span class="line">#事务B：在A没有commit之前，这个交叉事务是不能更改数据的</span><br><span class="line">start transaction;</span><br><span class="line">insert tx values(&apos;4&apos;,&apos;4&apos;);</span><br><span class="line">ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction</span><br><span class="line">update tx set num=10 where id=1;</span><br><span class="line">ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction</span><br><span class="line"></span><br><span class="line">SERIALIZABLE</span><br></pre></td></tr></table></figure>
 
-        
       
     </div>
 
     
-
-    
-
-  </article>
-
       
-        
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2018/12/15/python-基于-Pandas-数据处理/">python 基于 Pandas 数据处理</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-12-15
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-
-    <div class="post-content">
       
-        
-        
 
-        
-          <p>项目中需要把实时采集到的环境监测数据，进行分类汇总，所以借助 Pandas 进行数据处理。</p>
-<p>原始数据格式</p>
-<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-12-141510.png" alt="Snip20181212_1"></p>
-<p>采集数据主要是 PM2.5、温度、湿度、甲醛，时间间隔是20秒左右。</p>
-<p>需要统计的数据</p>
-<ol>
-<li>每天中截止统计时间PM2.5的最小值</li>
-<li>获取4种类型的最新的采集数据</li>
-<li>每个月的4种类型数据的平均值</li>
-<li>每天中从早上8点开始，间隔1个小时的 PM2.5、温度、湿度数据</li>
-</ol>
-<h3 id="数据处理过程"><a href="#数据处理过程" class="headerlink" title="数据处理过程"></a>数据处理过程</h3><h4 id="初始化数据"><a href="#初始化数据" class="headerlink" title="初始化数据"></a>初始化数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame([[ij <span class="keyword">for</span> ij <span class="keyword">in</span> i] <span class="keyword">for</span> i <span class="keyword">in</span> data])</span><br><span class="line">df.columns = [<span class="string">'id'</span>, <span class="string">'uuid'</span>, <span class="string">'room'</span>, <span class="string">'pm25'</span>, <span class="string">'temp'</span>, <span class="string">'hum'</span>, <span class="string">'voc'</span>, <span class="string">'time'</span>]</span><br><span class="line">df = df.set_index(<span class="string">'time'</span>)<span class="comment"># 将date设置为index</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>data 是从数据库获取的所有数据</strong></p>
-<h4 id="获取截止时间-PM2-5的最小值"><a href="#获取截止时间-PM2-5的最小值" class="headerlink" title="获取截止时间 PM2.5的最小值"></a>获取截止时间 PM2.5的最小值</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment"># 先获取当前月份</span></span><br><span class="line">&gt; now_time = datetime.datetime.now()</span><br><span class="line">&gt; <span class="comment"># print(now_time)</span></span><br><span class="line">&gt; month = now_time.strftime(<span class="string">'%Y-%m'</span>)</span><br><span class="line">&gt; </span><br><span class="line">&gt; <span class="comment"># 当月最小的pm2.5，month='2018-12'</span></span><br><span class="line">&gt; pm25_min = df[month][<span class="string">'pm25'</span>].min()</span><br><span class="line">&gt; print(<span class="string">'pm25_min='</span> + pm25_min)</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p><strong>以时间筛选之后，调用函数 min 获取’pm25’这列的最小值</strong></p>
-<h4 id="获取4种类型最新的采集数据"><a href="#获取4种类型最新的采集数据" class="headerlink" title="获取4种类型最新的采集数据"></a>获取4种类型最新的采集数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前温度值</span></span><br><span class="line">cur_temp = df[<span class="string">'temp'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前湿度值</span></span><br><span class="line">cur_hum = df[<span class="string">'hum'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前 PM25值</span></span><br><span class="line">cur_pm25 = df[<span class="string">'pm25'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前 voc 值</span></span><br><span class="line">cur_voc = df[<span class="string">'voc'</span>].values[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-<p><strong>获取某一列的第一个数据</strong></p>
-<h4 id="每个月的4种类型数据的平均值"><a href="#每个月的4种类型数据的平均值" class="headerlink" title="每个月的4种类型数据的平均值"></a>每个月的4种类型数据的平均值</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当月平均PM25</span></span><br><span class="line">pm25_sum = df[month][<span class="string">'pm25'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_pm25_sum = ' + str(pm25_sum))</span></span><br><span class="line">avg_pm25 = int(pm25_sum / df[month][<span class="string">'pm25'</span>].count())</span><br><span class="line">print(<span class="string">'avg_pm25 = '</span> + str(avg_pm25))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当月平均温度</span></span><br><span class="line">temp_sum = df[month][<span class="string">'temp'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_temp_sum = ' + str(temp_sum))</span></span><br><span class="line">avg_temp = int(temp_sum / df[month][<span class="string">'temp'</span>].count())</span><br><span class="line">print(<span class="string">'avg_temp = '</span> + str(avg_temp))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当月平均湿度</span></span><br><span class="line">hum_sum = df[month][<span class="string">'hum'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_hum_sum = ' + str(temp_sum))</span></span><br><span class="line">avg_hum = int(hum_sum / df[month][<span class="string">'hum'</span>].count())</span><br><span class="line">print(<span class="string">'avg_hum = '</span> + str(avg_hum))</span><br></pre></td></tr></table></figure>
-<p><strong>当月所有数据总和除以数据项</strong></p>
-<p>####每天中从早上8点开始，间隔1个小时的 PM2.5、温度、湿度数据</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">now_time = datetime.datetime.now()</span><br><span class="line"><span class="comment"># print(now_time)</span></span><br><span class="line">day = now_time.strftime(<span class="string">'%Y-%m-%d'</span>)</span><br><span class="line"></span><br><span class="line">temp_ar = []</span><br><span class="line">hum_ar = []</span><br><span class="line">pm25_ar = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>, <span class="number">16</span>):</span><br><span class="line">    <span class="keyword">if</span> i &lt; <span class="number">10</span>:</span><br><span class="line">        time = day + <span class="string">" 0"</span> + str(i)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        time = day + <span class="string">" "</span> + str(i)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        temp = df[time][<span class="string">'temp'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        temp = <span class="number">0</span></span><br><span class="line">    temp_ar.append(temp)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        hum = df[time][<span class="string">'hum'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        hum = <span class="number">0</span></span><br><span class="line">    hum_ar.append(hum)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        pm25 = df[time][<span class="string">'pm25'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        pm25 = <span class="number">0</span></span><br><span class="line">    pm25_ar.append(pm25)</span><br></pre></td></tr></table></figure>
-<p><strong>获取日期到天，然后加上时间’2018-12-12 08’的格式筛选出某个时间点第一个数据</strong></p>
-<h3 id="用到的技术点"><a href="#用到的技术点" class="headerlink" title="用到的技术点"></a>用到的技术点</h3><h4 id="Pandas-日期数据处理"><a href="#Pandas-日期数据处理" class="headerlink" title="Pandas 日期数据处理"></a>Pandas 日期数据处理</h4><h5 id="按日期筛选数据"><a href="#按日期筛选数据" class="headerlink" title="按日期筛选数据"></a>按日期筛选数据</h5><ol>
-<li><p><strong>按年度获取数据</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">`print(<span class="string">'---------获取2018年的数据-----------'</span>)`</span><br><span class="line">`print(df[<span class="string">'2018'</span>].head(<span class="number">2</span>)) <span class="comment"># 获取2018年的数据前两条`</span></span><br><span class="line">`print(df[<span class="string">'2018'</span>].tail(<span class="number">2</span>)) <span class="comment"># 获取2018年的数据后两条</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>获取跨年数据</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取2017至2018年的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2017'</span>:<span class="string">'2018'</span>].head(<span class="number">2</span>))  <span class="comment">#获取2016至2017年的数据</span></span><br><span class="line">print(df[<span class="string">'2017'</span>:<span class="string">'2018'</span>].tail(<span class="number">2</span>))  <span class="comment">#获取2016至2017年的数据</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>获取某月数据</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取某月的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2018-12'</span>]) <span class="comment"># 获取某月的数据</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>获取某天的数据</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按日期筛选数据</span></span><br><span class="line">print(<span class="string">'---------获取具体某天的数据-----------'</span>)</span><br><span class="line"><span class="comment"># 获取具体某天的数据</span></span><br><span class="line">print(df[<span class="string">'2018-12-12'</span>])</span><br><span class="line"><span class="comment"># 可以考虑用区间来获取某天的数据</span></span><br><span class="line">print(df[<span class="string">'2018-12-11'</span>:<span class="string">'2018-12-12'</span>])</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>获取某个时期之前或之后的数据</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dataframe的truncate函数可以获取某个时期之前或之后的数据，或者某个时间区间的数据</span></span><br><span class="line"><span class="comment"># 但一般建议直接用切片（slice），这样更为直观，方便</span></span><br><span class="line">print(<span class="string">'---------获取某个时期之前或之后的数据-----------'</span>)</span><br><span class="line">print(<span class="string">'--------after------------'</span>)</span><br><span class="line">print(df.truncate(after = <span class="string">'2018-11'</span>))</span><br><span class="line">print(<span class="string">'--------before------------'</span>)</span><br><span class="line">print(df.truncate(before=<span class="string">'2018-12'</span>))</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>获取某个时间点的数据</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取某个时间点的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2018-12-12 10'</span>]) <span class="comment"># 获取12月12日，10点的数据</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h5 id="pd-DataFrame-统计各列数值多少"><a href="#pd-DataFrame-统计各列数值多少" class="headerlink" title="pd.DataFrame 统计各列数值多少"></a>pd.DataFrame 统计各列数值多少</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.count()          <span class="comment">#非空元素计算</span></span><br><span class="line">.min()   a         <span class="comment">#最小值</span></span><br><span class="line">.max()            <span class="comment">#最大值</span></span><br><span class="line">.idxmin()         <span class="comment">#最小值的位置，类似于R中的which.min函数</span></span><br><span class="line">.idxmax()         <span class="comment">#最大值的位置，类似于R中的which.max函数</span></span><br><span class="line">.quantile(<span class="number">0.75</span>)    <span class="comment">#75%分位数</span></span><br><span class="line">.sum()            <span class="comment">#求和</span></span><br><span class="line">.mean()           <span class="comment">#均值</span></span><br><span class="line">.median()         <span class="comment">#中位数</span></span><br><span class="line">.mode()           <span class="comment">#众数</span></span><br><span class="line">.var()            <span class="comment">#方差</span></span><br><span class="line">.std()            <span class="comment">#标准差</span></span><br><span class="line">.mad()            <span class="comment">#平均绝对偏差</span></span><br><span class="line">.skew()           <span class="comment">#偏度</span></span><br><span class="line">.kurt()           <span class="comment">#峰度</span></span><br><span class="line">.describe()       <span class="comment">#一次性输出多个描述性统计指标</span></span><br></pre></td></tr></table></figure>
-<h5 id="将-pandas-数据帧中的列从-int-转换为字符串"><a href="#将-pandas-数据帧中的列从-int-转换为字符串" class="headerlink" title="将 pandas 数据帧中的列从 int 转换为字符串"></a>将 pandas 数据帧中的列从 int 转换为字符串</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">'A'</span>].apply(str)</span><br></pre></td></tr></table></figure>
-<p>将 <strong>int</strong>转化为<strong>str</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[month][<span class="string">'pm25'</span>].apply(int)</span><br></pre></td></tr></table></figure>
-<p>将 <strong>str</strong>转化为<strong>int</strong></p>
-
-        
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>原文作者: </span>
+      <a href="http://yoursite.com">PP小猪</a>
+    </p>
+    <p class="copyright-item">
+      <span>原文链接: </span>
+      <a href="http://yoursite.com/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/">http://yoursite.com/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/</a>
+    </p>
+    <p class="copyright-item">
+      <span>许可协议: </span>
       
-    </div>
-
-    
-
-    
-
-  </article>
-
-      
-        
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2018/12/15/使用-supervisor-管理进程/">使用 supervisor 管理进程</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-12-15
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
 
 
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>Supervisor (<a href="http://supervisord.org/" target="_blank" rel="noopener">http://supervisord.org</a>) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以用 supervisor 同时启动所有应用程序而不是一个一个地敲命令启动。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>服务器我采用的是 Ubuntu 系统，所以使用 apt-get 安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install supervisor</span><br></pre></td></tr></table></figure>
-<h3 id="supervisor-配置"><a href="#supervisor-配置" class="headerlink" title="supervisor 配置"></a>supervisor 配置</h3><p>安装完成之后，配置文件在 Ubuntu 系统中的位置是 <strong>/etc/supervisor/supervisor.conf</strong>，如果配置文件不存在，可以使用命令<strong>echo supervisord_conf</strong>命令输出默认配置，也可以重定向到一个配置文件里：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
-<p>可以看看主要的配置选项</p>
-<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-13-152146.png" alt=""></p>
-<h3 id="添加自己的程序"><a href="#添加自己的程序" class="headerlink" title="添加自己的程序"></a>添加自己的程序</h3><p>对应的配置文件可能是：(每行配置结束的“；”一定要和配置项保持分开)</p>
-<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-13-152305.png" alt=""></p>
-<p>其中 <code>[program:iot]</code> 中的 <code>iot</code> 是应用程序的唯一标识，不能重复。对该程序的所有操作（start, restart 等）都通过名字来实现。</p>
-<h3 id="web-管理界面"><a href="#web-管理界面" class="headerlink" title="web 管理界面"></a>web 管理界面</h3><p>可以配置 supervisrod 启动 web 管理界面，这个 web 后台使用 Basic Auth 的方式进行身份认证。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">;[inet_http_server]         ; HTTP 服务器，提供 web 管理界面</span><br><span class="line">;port=9001        			; Web 管理后台运行的 IP 和端口，如果开放到公网，需要注意安全性</span><br><span class="line">;username=user              ; 登录管理后台的用户名</span><br><span class="line">;password=123               ; 登录管理后台的密码</span><br></pre></td></tr></table></figure>
-<p>可以在 web 上，控制任务的启动、停止、重启、清除日志，查看最新的日志记录。</p>
-<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-13-143910.png" alt=""></p>
-<h3 id="使用-supervisorctl"><a href="#使用-supervisorctl" class="headerlink" title="使用 supervisorctl"></a>使用 supervisorctl</h3><p>Supervisorctl 是 supervisord 的一个命令行客户端工具，启动时需要指定与 supervisord 使用同一份配置文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl -c /etc/supervisord/supervisord.conf</span><br></pre></td></tr></table></figure>
-<p>上面这个命令会进入 supervisorctl 的 shell 界面，然后可以执行不同的命令了：</p>
-<blockquote>
-<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-15-125846.png" alt=""></p>
-</blockquote>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-      
-        
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2018/12/15/hello-world/">Hello World</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-12-15
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
 
       
       
-  <nav class="pagination">
     
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/pymysql/">pymysql</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2018/12/15/python-基于-Pandas-数据处理/">
+        <span class="next-text nav-default">python 基于 Pandas 数据处理</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
     
   </nav>
 
 
+      </footer>
     
-  </section>
+
+  </article>
+
 
           </div>
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
       </main>
@@ -614,6 +460,11 @@
     </div>
 
     
+  
+  
+
+  
+
 
 
     
