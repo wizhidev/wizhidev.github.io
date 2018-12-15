@@ -10,6 +10,17 @@
 <meta http-equiv="Cache-Control" content="no-transform">
 <meta http-equiv="Cache-Control" content="no-siteapp">
 
+<meta name="theme-color" content="#f8f5ec">
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+
+
+
+
 
 
 
@@ -23,23 +34,47 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x">
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.10.1">
 
 
 
 <link rel="canonical" href="http://yoursite.com/">
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="PP小猪窝">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="PP小猪窝">
-<meta property="og:locale" content="zh_CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PP小猪窝">
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
 
 
-<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x">
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/nprogress/nprogress.min.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.10.1">
+
+
+
+  
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
 
 
 
@@ -48,20 +83,8 @@
 
 
 <script>
-  var CONFIG = {
-    search: false,
-    searchPath: "/search.xml",
-    fancybox: false,
-    toc: true,
-  }
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":true};
 </script>
-
-
-
-
-  
-
-
 
     <title> PP小猪窝 </title>
   </head>
@@ -84,16 +107,7 @@
         <li class="mobile-menu-item">
           
           
-            Home
-          
-        </li>
-      </a>
-    
-      <a href="/archives/">
-        <li class="mobile-menu-item">
-          
-          
-            Archives
+            首页
           
         </li>
       </a>
@@ -114,20 +128,10 @@
           <a class="menu-item-link" href="/">
             
             
-              Home
+              首页
             
           </a>
         </li>
-      
-        <li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
-            
-            
-              Archives
-            
-          </a>
-        </li>
-      
       
     </ul>
   
@@ -139,9 +143,11 @@
         <div class="content-wrapper">
           <div id="content" class="content">
             
+  
   <section id="posts" class="posts">
     
       
+        
   <article class="post">
     <header class="post-header">
       <h1 class="post-title">
@@ -152,13 +158,16 @@
 
       <div class="post-meta">
         <span class="post-time">
-          2018年12月15日
+          2018-12-15
         </span>
+        
+        
       </div>
     </header>
 
     
     
+
 
     <div class="post-content">
       
@@ -186,20 +195,21 @@
 
   </article>
 
-    
-  </section>
-
-  
+      
+      
   <nav class="pagination">
     
     
   </nav>
 
 
+    
+  </section>
+
           </div>
           
 
-        </div>  
+        </div>
       </main>
 
       <footer id="footer" class="footer">
@@ -223,7 +233,9 @@
       
     
       
-    
+        
+          <a href="https://github.com/ahonn" class="iconfont icon-github" title="github"></a>
+        
       
     
       
@@ -232,7 +244,13 @@
     
       
     
+      
     
+      
+    
+      
+    
+
     
       
       <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
@@ -240,13 +258,14 @@
   </div>
 
 
+
 <div class="copyright">
   <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
   </span>
-  
+  <span class="division">|</span>
   <span class="theme-info">
-    Theme - 
+    主题 - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
@@ -264,6 +283,7 @@
     <span class="author">PP小猪</span>
   </span>
 </div>
+
       </footer>
 
       <div class="back-to-top" id="back-to-top">
@@ -275,12 +295,19 @@
 
 
     
+  
+
+
+
+  
+  
+
 
 
 
 
   
-    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
   
 
   
@@ -288,11 +315,19 @@
   
 
   
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/pjax/jquery.pjax.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/nprogress/nprogress.min.js"></script>
+  
 
 
-    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
-<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+    <script type="text/javascript" src="/js/src/even.js?v=2.10.1"></script>
 
-    
   </body>
 </html>
