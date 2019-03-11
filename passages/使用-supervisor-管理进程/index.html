@@ -6,12 +6,12 @@
   <meta name="author" content="Dong Yuanxin">
   
   
-  <title>标签: supervisor 管理进程 | 技术之路</title>
+  <title>使用 supervisor 管理进程 | 技术之路</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="Hexo, Theme-AD">
+    <meta name="keywords" content="supervisor 管理进程,">
   
 
   
@@ -38,7 +38,7 @@
     welcome: {"enable":true,"interval":30},
     start_time: "2018-02-10",
     passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
-    is_post: false,
+    is_post: true,
     lock: false,
     author: "Dong Yuanxin",
     share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
@@ -156,19 +156,87 @@
 </nav>
 <div id="site-process"></div>
     <main>
-      <div class="timeline">
-  <h2 class="timeline-title">标签: supervisor 管理进程</h2>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2018-12-15
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    使用 supervisor 管理进程
+  </h1>
   
+  <article class="passage-article">
+    <p>Supervisor (<a href="http://supervisord.org/" target="_blank" rel="noopener">http://supervisord.org</a>) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以用 supervisor 同时启动所有应用程序而不是一个一个地敲命令启动。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>服务器我采用的是 Ubuntu 系统，所以使用 apt-get 安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install supervisor</span><br></pre></td></tr></table></figure>
+<h3 id="supervisor-配置"><a href="#supervisor-配置" class="headerlink" title="supervisor 配置"></a>supervisor 配置</h3><p>安装完成之后，配置文件在 Ubuntu 系统中的位置是 <strong>/etc/supervisor/supervisor.conf</strong>，如果配置文件不存在，可以使用命令<strong>echo supervisord_conf</strong>命令输出默认配置，也可以重定向到一个配置文件里：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
+<p>可以看看主要的配置选项</p>
+<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-13-152146.png" alt=""></p>
+<h3 id="添加自己的程序"><a href="#添加自己的程序" class="headerlink" title="添加自己的程序"></a>添加自己的程序</h3><p>对应的配置文件可能是：(每行配置结束的“；”一定要和配置项保持分开)</p>
+<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-13-152305.png" alt=""></p>
+<p>其中 <code>[program:iot]</code> 中的 <code>iot</code> 是应用程序的唯一标识，不能重复。对该程序的所有操作（start, restart 等）都通过名字来实现。</p>
+<h3 id="web-管理界面"><a href="#web-管理界面" class="headerlink" title="web 管理界面"></a>web 管理界面</h3><p>可以配置 supervisrod 启动 web 管理界面，这个 web 后台使用 Basic Auth 的方式进行身份认证。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">;[inet_http_server]         ; HTTP 服务器，提供 web 管理界面</span><br><span class="line">;port=9001        			; Web 管理后台运行的 IP 和端口，如果开放到公网，需要注意安全性</span><br><span class="line">;username=user              ; 登录管理后台的用户名</span><br><span class="line">;password=123               ; 登录管理后台的密码</span><br></pre></td></tr></table></figure>
+<p>可以在 web 上，控制任务的启动、停止、重启、清除日志，查看最新的日志记录。</p>
+<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-13-143910.png" alt=""></p>
+<h3 id="使用-supervisorctl"><a href="#使用-supervisorctl" class="headerlink" title="使用 supervisorctl"></a>使用 supervisorctl</h3><p>Supervisorctl 是 supervisord 的一个命令行客户端工具，启动时需要指定与 supervisord 使用同一份配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl -c /etc/supervisord/supervisord.conf</span><br></pre></td></tr></table></figure>
+<p>上面这个命令会进入 supervisorctl 的 shell 界面，然后可以执行不同的命令了：</p>
+<blockquote>
+<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-15-125846.png" alt=""></p>
+</blockquote>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#supervisor-配置"><span class="toc-text">supervisor 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加自己的程序"><span class="toc-text">添加自己的程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-管理界面"><span class="toc-text">web 管理界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-supervisorctl"><span class="toc-text">使用 supervisorctl</span></a></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 董沅鑫</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://yoursite.com/passages/使用-supervisor-管理进程/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/supervisor-管理进程/"><i class="fa fa-tags"></i>supervisor 管理进程</a>
     
-      <h3 class="timeline-subtitle">2018</h3>
-    
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/使用-supervisor-管理进程/">使用 supervisor 管理进程</a>
     </div>
   
 </div>
+
     </main>
+    
+      <div class="site-comment-contanier">
+  <p id="site-comment-info">
+    <i class="fa fa-spinner fa-spin"></i> 评论加载中
+  </p>
+  <div id="site-comment">
+  </div>
+</div>
     
     <div class="site-footer-wrapper">
   <footer class="site-footer">
@@ -269,19 +337,19 @@
 
 <div class="bottom-bar">
   <div class="bottom-bar-left">
-    <a href="javascript:void(0);" data-enable="false">
+    <a href="/passages/python-基于-Pandas-数据处理/" data-enable="true">
       <i class="fa fa-arrow-left"></i>
     </a>
-    <a href="javascript:void(0);" data-enable="false">
+    <a href="/passages/hello-world/" data-enable="true">
       <i class="fa fa-arrow-right"></i>
     </a>
   </div>
   <div class="bottom-bar-right">
-    <a href="javascript:void(0);" data-enable="false" id="site-toc-show-btn">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
       <i class="fa fa-bars"></i>
     </a>
     
-      <a href="javascript:void(0);" data-enable="false">
+      <a href="#site-comment" data-enable="true">
         <i class="fa fa-commenting"></i>
       </a>
     

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="author" content="Dong Yuanxin">
+  
+  
+  <title>python 基于 Pandas 数据处理 | 技术之路</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Pandas,">
+  
+
+  
+  <meta name="description" content="董沅鑫的小站">
+
+  
+
+  <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":true,"count":true},
+    welcome: {"enable":true,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Dong Yuanxin",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">GODBMW</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 安静写些东西</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/dongyuanxin/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2018-12-15
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    python 基于 Pandas 数据处理
+  </h1>
+  
+  <article class="passage-article">
+    <p>项目中需要把实时采集到的环境监测数据，进行分类汇总，所以借助 Pandas 进行数据处理。</p>
+<p>原始数据格式</p>
+<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-12-141510.png" alt="Snip20181212_1"></p>
+<p>采集数据主要是 PM2.5、温度、湿度、甲醛，时间间隔是20秒左右。</p>
+<p>需要统计的数据</p>
+<ol>
+<li>每天中截止统计时间PM2.5的最小值</li>
+<li>获取4种类型的最新的采集数据</li>
+<li>每个月的4种类型数据的平均值</li>
+<li>每天中从早上8点开始，间隔1个小时的 PM2.5、温度、湿度数据</li>
+</ol>
+<h3 id="数据处理过程"><a href="#数据处理过程" class="headerlink" title="数据处理过程"></a>数据处理过程</h3><h4 id="初始化数据"><a href="#初始化数据" class="headerlink" title="初始化数据"></a>初始化数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame([[ij <span class="keyword">for</span> ij <span class="keyword">in</span> i] <span class="keyword">for</span> i <span class="keyword">in</span> data])</span><br><span class="line">df.columns = [<span class="string">'id'</span>, <span class="string">'uuid'</span>, <span class="string">'room'</span>, <span class="string">'pm25'</span>, <span class="string">'temp'</span>, <span class="string">'hum'</span>, <span class="string">'voc'</span>, <span class="string">'time'</span>]</span><br><span class="line">df = df.set_index(<span class="string">'time'</span>)<span class="comment"># 将date设置为index</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>data 是从数据库获取的所有数据</strong></p>
+<h4 id="获取截止时间-PM2-5的最小值"><a href="#获取截止时间-PM2-5的最小值" class="headerlink" title="获取截止时间 PM2.5的最小值"></a>获取截止时间 PM2.5的最小值</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment"># 先获取当前月份</span></span><br><span class="line">&gt; now_time = datetime.datetime.now()</span><br><span class="line">&gt; <span class="comment"># print(now_time)</span></span><br><span class="line">&gt; month = now_time.strftime(<span class="string">'%Y-%m'</span>)</span><br><span class="line">&gt; </span><br><span class="line">&gt; <span class="comment"># 当月最小的pm2.5，month='2018-12'</span></span><br><span class="line">&gt; pm25_min = df[month][<span class="string">'pm25'</span>].min()</span><br><span class="line">&gt; print(<span class="string">'pm25_min='</span> + pm25_min)</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>以时间筛选之后，调用函数 min 获取’pm25’这列的最小值</strong></p>
+<h4 id="获取4种类型最新的采集数据"><a href="#获取4种类型最新的采集数据" class="headerlink" title="获取4种类型最新的采集数据"></a>获取4种类型最新的采集数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前温度值</span></span><br><span class="line">cur_temp = df[<span class="string">'temp'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前湿度值</span></span><br><span class="line">cur_hum = df[<span class="string">'hum'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前 PM25值</span></span><br><span class="line">cur_pm25 = df[<span class="string">'pm25'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前 voc 值</span></span><br><span class="line">cur_voc = df[<span class="string">'voc'</span>].values[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>获取某一列的第一个数据</strong></p>
+<h4 id="每个月的4种类型数据的平均值"><a href="#每个月的4种类型数据的平均值" class="headerlink" title="每个月的4种类型数据的平均值"></a>每个月的4种类型数据的平均值</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当月平均PM25</span></span><br><span class="line">pm25_sum = df[month][<span class="string">'pm25'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_pm25_sum = ' + str(pm25_sum))</span></span><br><span class="line">avg_pm25 = int(pm25_sum / df[month][<span class="string">'pm25'</span>].count())</span><br><span class="line">print(<span class="string">'avg_pm25 = '</span> + str(avg_pm25))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当月平均温度</span></span><br><span class="line">temp_sum = df[month][<span class="string">'temp'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_temp_sum = ' + str(temp_sum))</span></span><br><span class="line">avg_temp = int(temp_sum / df[month][<span class="string">'temp'</span>].count())</span><br><span class="line">print(<span class="string">'avg_temp = '</span> + str(avg_temp))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当月平均湿度</span></span><br><span class="line">hum_sum = df[month][<span class="string">'hum'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_hum_sum = ' + str(temp_sum))</span></span><br><span class="line">avg_hum = int(hum_sum / df[month][<span class="string">'hum'</span>].count())</span><br><span class="line">print(<span class="string">'avg_hum = '</span> + str(avg_hum))</span><br></pre></td></tr></table></figure>
+<p><strong>当月所有数据总和除以数据项</strong></p>
+<p>####每天中从早上8点开始，间隔1个小时的 PM2.5、温度、湿度数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">now_time = datetime.datetime.now()</span><br><span class="line"><span class="comment"># print(now_time)</span></span><br><span class="line">day = now_time.strftime(<span class="string">'%Y-%m-%d'</span>)</span><br><span class="line"></span><br><span class="line">temp_ar = []</span><br><span class="line">hum_ar = []</span><br><span class="line">pm25_ar = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>, <span class="number">16</span>):</span><br><span class="line">    <span class="keyword">if</span> i &lt; <span class="number">10</span>:</span><br><span class="line">        time = day + <span class="string">" 0"</span> + str(i)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        time = day + <span class="string">" "</span> + str(i)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        temp = df[time][<span class="string">'temp'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        temp = <span class="number">0</span></span><br><span class="line">    temp_ar.append(temp)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        hum = df[time][<span class="string">'hum'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        hum = <span class="number">0</span></span><br><span class="line">    hum_ar.append(hum)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        pm25 = df[time][<span class="string">'pm25'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        pm25 = <span class="number">0</span></span><br><span class="line">    pm25_ar.append(pm25)</span><br></pre></td></tr></table></figure>
+<p><strong>获取日期到天，然后加上时间’2018-12-12 08’的格式筛选出某个时间点第一个数据</strong></p>
+<h3 id="用到的技术点"><a href="#用到的技术点" class="headerlink" title="用到的技术点"></a>用到的技术点</h3><h4 id="Pandas-日期数据处理"><a href="#Pandas-日期数据处理" class="headerlink" title="Pandas 日期数据处理"></a>Pandas 日期数据处理</h4><h5 id="按日期筛选数据"><a href="#按日期筛选数据" class="headerlink" title="按日期筛选数据"></a>按日期筛选数据</h5><ol>
+<li><p><strong>按年度获取数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">`print(<span class="string">'---------获取2018年的数据-----------'</span>)`</span><br><span class="line">`print(df[<span class="string">'2018'</span>].head(<span class="number">2</span>)) <span class="comment"># 获取2018年的数据前两条`</span></span><br><span class="line">`print(df[<span class="string">'2018'</span>].tail(<span class="number">2</span>)) <span class="comment"># 获取2018年的数据后两条</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取跨年数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取2017至2018年的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2017'</span>:<span class="string">'2018'</span>].head(<span class="number">2</span>))  <span class="comment">#获取2016至2017年的数据</span></span><br><span class="line">print(df[<span class="string">'2017'</span>:<span class="string">'2018'</span>].tail(<span class="number">2</span>))  <span class="comment">#获取2016至2017年的数据</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取某月数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取某月的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2018-12'</span>]) <span class="comment"># 获取某月的数据</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取某天的数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按日期筛选数据</span></span><br><span class="line">print(<span class="string">'---------获取具体某天的数据-----------'</span>)</span><br><span class="line"><span class="comment"># 获取具体某天的数据</span></span><br><span class="line">print(df[<span class="string">'2018-12-12'</span>])</span><br><span class="line"><span class="comment"># 可以考虑用区间来获取某天的数据</span></span><br><span class="line">print(df[<span class="string">'2018-12-11'</span>:<span class="string">'2018-12-12'</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取某个时期之前或之后的数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dataframe的truncate函数可以获取某个时期之前或之后的数据，或者某个时间区间的数据</span></span><br><span class="line"><span class="comment"># 但一般建议直接用切片（slice），这样更为直观，方便</span></span><br><span class="line">print(<span class="string">'---------获取某个时期之前或之后的数据-----------'</span>)</span><br><span class="line">print(<span class="string">'--------after------------'</span>)</span><br><span class="line">print(df.truncate(after = <span class="string">'2018-11'</span>))</span><br><span class="line">print(<span class="string">'--------before------------'</span>)</span><br><span class="line">print(df.truncate(before=<span class="string">'2018-12'</span>))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取某个时间点的数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取某个时间点的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2018-12-12 10'</span>]) <span class="comment"># 获取12月12日，10点的数据</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="pd-DataFrame-统计各列数值多少"><a href="#pd-DataFrame-统计各列数值多少" class="headerlink" title="pd.DataFrame 统计各列数值多少"></a>pd.DataFrame 统计各列数值多少</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.count()          <span class="comment">#非空元素计算</span></span><br><span class="line">.min()   a         <span class="comment">#最小值</span></span><br><span class="line">.max()            <span class="comment">#最大值</span></span><br><span class="line">.idxmin()         <span class="comment">#最小值的位置，类似于R中的which.min函数</span></span><br><span class="line">.idxmax()         <span class="comment">#最大值的位置，类似于R中的which.max函数</span></span><br><span class="line">.quantile(<span class="number">0.75</span>)    <span class="comment">#75%分位数</span></span><br><span class="line">.sum()            <span class="comment">#求和</span></span><br><span class="line">.mean()           <span class="comment">#均值</span></span><br><span class="line">.median()         <span class="comment">#中位数</span></span><br><span class="line">.mode()           <span class="comment">#众数</span></span><br><span class="line">.var()            <span class="comment">#方差</span></span><br><span class="line">.std()            <span class="comment">#标准差</span></span><br><span class="line">.mad()            <span class="comment">#平均绝对偏差</span></span><br><span class="line">.skew()           <span class="comment">#偏度</span></span><br><span class="line">.kurt()           <span class="comment">#峰度</span></span><br><span class="line">.describe()       <span class="comment">#一次性输出多个描述性统计指标</span></span><br></pre></td></tr></table></figure>
+<h5 id="将-pandas-数据帧中的列从-int-转换为字符串"><a href="#将-pandas-数据帧中的列从-int-转换为字符串" class="headerlink" title="将 pandas 数据帧中的列从 int 转换为字符串"></a>将 pandas 数据帧中的列从 int 转换为字符串</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">'A'</span>].apply(str)</span><br></pre></td></tr></table></figure>
+<p>将 <strong>int</strong>转化为<strong>str</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[month][<span class="string">'pm25'</span>].apply(int)</span><br></pre></td></tr></table></figure>
+<p>将 <strong>str</strong>转化为<strong>int</strong></p>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据处理过程"><span class="toc-text">数据处理过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#初始化数据"><span class="toc-text">初始化数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取截止时间-PM2-5的最小值"><span class="toc-text">获取截止时间 PM2.5的最小值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取4种类型最新的采集数据"><span class="toc-text">获取4种类型最新的采集数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#每个月的4种类型数据的平均值"><span class="toc-text">每个月的4种类型数据的平均值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用到的技术点"><span class="toc-text">用到的技术点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Pandas-日期数据处理"><span class="toc-text">Pandas 日期数据处理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#按日期筛选数据"><span class="toc-text">按日期筛选数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pd-DataFrame-统计各列数值多少"><span class="toc-text">pd.DataFrame 统计各列数值多少</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#将-pandas-数据帧中的列从-int-转换为字符串"><span class="toc-text">将 pandas 数据帧中的列从 int 转换为字符串</span></a></li></ol></li></ol></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 董沅鑫</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://yoursite.com/passages/python-基于-Pandas-数据处理/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/Pandas/"><i class="fa fa-tags"></i>Pandas</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+      <div class="site-comment-contanier">
+  <p id="site-comment-info">
+    <i class="fa fa-spinner fa-spin"></i> 评论加载中
+  </p>
+  <div id="site-comment">
+  </div>
+</div>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">博客推荐</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/" target="_blank">GodBMW</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="http://ruanyifeng.com/" target="_blank">阮一峰的个人网站</a>
+          </span>
+        
+      </div>
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">系列教程</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/categories/webpack4%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B/" target="_blank">webpack4系列教程</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/design-patterns/" target="_blank">设计模式手册</a>
+          </span>
+        
+      </div>
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">抓到我</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://juejin.im/user/5b91fcf06fb9a05d3c7fd4a5" target="_blank">掘金</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://segmentfault.com/" target="_blank">思否</a>
+          </span>
+        
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email: yuanxin.me@gmail.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+        
+          <div>
+            <img src="/images/wechat.png" alt="WeChat">
+            
+              <p>WeChat</p>
+            
+          </div>
+        
+          <div>
+            <img src="/images/alipay.png" alt="AliPay">
+            
+              <p>AliPay</p>
+            
+          </div>
+        
+      </div>
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/passages/为什么-pymysql-重连后才能查到新添加的数据/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/passages/使用-supervisor-管理进程/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+      <a href="#site-comment" data-enable="true">
+        <i class="fa fa-commenting"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    <a href="javascript:void(0);" id="site-reward">
+      <i class="fa fa-thumbs-up"></i>
+    </a>
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>
