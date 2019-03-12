@@ -1,376 +1,319 @@
 <!DOCTYPE html>
-<html>
-  
+<html lang="zh_CN">
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  <meta name="author" content="Dong Yuanxin">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    技术之路
+  </title>
+  <meta name="description" content="">
   
-  
-  <title>归档: 2018 | 技术之路</title>
+  <meta name="author" content="黄伟平">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
-  
-    <meta name="keywords" content="Hexo, Theme-AD">
-  
-
-  
-  <meta name="description" content="董沅鑫的小站">
-
-  
-
-  <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
-
-  
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
 
   
-    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
-  
 
-  <script>
-  // theme-ad's config script
-  // it can be used in every script
-  
-  window.AD_CONFIG = {
-    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":true,"count":true},
-    welcome: {"enable":true,"interval":30},
-    start_time: "2018-02-10",
-    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
-    is_post: false,
-    lock: false,
-    author: "Dong Yuanxin",
-    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
-    mathjax: true,
-    page_type: "",
-    root: "/"
-  };
-</script>
-
-  <script src="/vendor/sha256.min.js"></script>
-<script src="/js/auth.js"></script>
-<script src="/js/index.js"></script>
-<script src="/vendor/qrcode.min.js"></script>
-
-  
-    <link rel="icon" href="/images/favicon.ico">
-    <link rel="apple-touch-icon" href="/images/touch-icon.png">
-  
-
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="/css/index.css">
-<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
-
-  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 </head>
-  <body>
-    <header class="site-header">
-  <div class="site-header-brand">
-    
-      <span class="site-header-brand-title">
-        <a href="/">GODBMW</a>
-      </span>
-    
-    
-      <span class="site-header-brand-motto"> | 安静写些东西</span>
-    
-  </div>
-  <div class="site-header-right">
-    <nav class="site-header-navigation">
-      
-        <a href="/" target="_self">首页</a>
-      
-        <a href="/archives/" target="_self">归档</a>
-      
-        <a href="/tags/" target="_self">标签</a>
-      
-        <a href="/categories/" target="_self">分类</a>
-      
-        <a href="/friends/" target="_self">友链</a>
-      
-        <a href="/about/" target="_self">关于</a>
-      
-    </nav>
-    <div class="site-header-btn">
-      
-        <a href="https://github.com/dongyuanxin/" target="_blank" id="site-github">
-          <i class="fa fa-github-alt"></i>
-        </a>
-      
-      <a href="javascript:void(0);" id="site-search">
-        <i class="fa fa-search"></i>
-      </a>
-      <a href="javascript:void(0);" id="site-nav-btn">
-        <i class="fa fa-ellipsis-v"></i>
-      </a>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></a>
+        </li>
+      </ul>
     </div>
-  </div>
-</header>
-<nav class="table-content" id="site-nav">
-  <div class="table-content-title">
-    <span>导航</span>
-  </div>
-  <div class="table-content-main">
-    <ol class="toc">
-      
-        <li class="toc-item">
-          <a href="/" target="_self">
-            首页
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/archives/" target="_self">
-            归档
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/tags/" target="_self">
-            标签
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/categories/" target="_self">
-            分类
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/friends/" target="_self">
-            友链
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/about/" target="_self">
-            关于
-          </a>
-        </li>
-      
-    </ol>
   </div>
 </nav>
-<div id="site-process"></div>
-    <main>
-      <div class="timeline">
-  <h2 class="timeline-title">归档: 8篇</h2>
+
+<div class="main-container">
   
+
+<div class="container-lg">
+  
+
+<div class="blog-intro">
+  <div class="blog-intro-user">
+    <img class="avatar" src="https://octodex.github.com/images/baracktocat.jpg">
+    <div class="user-name">
+      <div class="blog-title">技术之路</div>
+      <div class="blog-author">黄伟平</div>
+        <ul class="user-detail mobile-only">
     
-      <h3 class="timeline-subtitle">2018</h3>
-    
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/关于学习/">关于学习</a>
+    <li>
+      <i class="fa fa-link"></i>
+      <a href="http://yoursite.com">http://yoursite.com</a>
+    </li>
+  </ul>
     </div>
-  
-    
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/创业的几点建议/">创业的几点建议</a>
+    <div class="blog-description">
+      
     </div>
-  
+  </div>
+
+  <ul class="user-detail desktop-only">
     
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/git-flow工作流/">git-flow工作流</a>
-    </div>
-  
-    
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/cmake调用第三方库/">cmake调用第三方库</a>
-    </div>
-  
-    
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/为什么-pymysql-重连后才能查到新添加的数据/">为什么 pymysql 重连后才能查到新添加的数据</a>
-    </div>
-  
-    
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/python-基于-Pandas-数据处理/">python 基于 Pandas 数据处理</a>
-    </div>
-  
-    
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/使用-supervisor-管理进程/">使用 supervisor 管理进程</a>
-    </div>
-  
-    
-    <div class="timeline-item">
-      <time>2018-12-15</time>
-      <a target="_self" href="/passages/hello-world/">Hello World</a>
-    </div>
-  
+    <li>
+      <i class="fa fa-link"></i>
+      <a href="http://yoursite.com">http://yoursite.com</a>
+    </li>
+  </ul>
+
+  <div class="social-media desktop-only">
+    <h4>Social Media</h4>
+    <ul>
+      
+    </ul>
+  </div>
 </div>
-    </main>
+
+
+  <div class="blog-detail">
     
-    <div class="site-footer-wrapper">
-  <footer class="site-footer">
-    
-      <div class="site-footer-col">
-        <h5 class="site-footer-title">博客推荐</h5>
+<nav class="blog-detail-nav desktop-only">
+  <ul class="clearfix">
+    <li class="">
+      <a href="/">Overview</a></li>
+    <li class="selected">
+      <a href="/archives">Posts <span class="counter">8</span></a>
+    </li>
+    <li class="">
+      <a href="/categories">Categories <span class="counter">0</span></a></li>
+    <li class="">
+      <a href="/tags">Tags <span class="counter">7</span></a></li>
+  </ul>
+</nav>
+
+    <div class="body-secondary">
+      <ul class="archive-list">
         
-          <span class="site-footer-item">
-            <a href="https://godbmw.com/" target="_blank">GodBMW</a>
-          </span>
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/15/关于学习/">关于学习</a></h2>
+          <p>
+             什么是读书？ 读书是向外的，称之为看。  
+ 什么是静坐？ 静坐是向内的，称之为观  
+   说看  优秀的人永远对生活充满好奇心。 对他们来说这不叫 “好奇”，而是刷新认知的边界 。通常来说，一个人的判断决策和行为方式，取决于他的经历和知识。 
+ 你对这个世界的认知决定了你在多大的范围内把握机会...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item">学习</li>
+            
+          </ul>
+          <div class="post-info">
+            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1544881652000).fromNow()}}</span>
+          </div>
+        </li>
         
-          <span class="site-footer-item">
-            <a href="http://ruanyifeng.com/" target="_blank">阮一峰的个人网站</a>
-          </span>
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/15/创业的几点建议/">创业的几点建议</a></h2>
+          <p>
+             
+  先兼职完成探索的闭环，赚到第一块钱，兼职完不成赚一块钱的目标，全职也很难 ，只有当闭环走完，明显的瓶颈出现在时间投入上时，全职才有意义。 
+  做好至少半年以上没有收入的准备 ，特别是做产品，没有几个月的打磨产品，产品是不可用状态，现金压力太大，动作会变形，动作变形，产品做不好，进入恶性循环...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item">创业</li>
+            
+          </ul>
+          <div class="post-info">
+            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1544881607000).fromNow()}}</span>
+          </div>
+        </li>
         
-      </div>
-    
-      <div class="site-footer-col">
-        <h5 class="site-footer-title">系列教程</h5>
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/15/git-flow工作流/">git-flow工作流</a></h2>
+          <p>
+             git-flow是当前非常流行的项目工作流程，可以在团队中行程一个特定有效的工作流程，解决团队开发中版本控制出现的混乱。 
+    git-flow    git-flow并不是替代git，它扩展了很多命令，这些命令可以在预定义的顺序下自动执行多个操作。
+     安装方法  mac平台安装git...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item">gitflow</li>
+            
+          </ul>
+          <div class="post-info">
+            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1544880429000).fromNow()}}</span>
+          </div>
+        </li>
         
-          <span class="site-footer-item">
-            <a href="https://godbmw.com/categories/webpack4%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B/" target="_blank">webpack4系列教程</a>
-          </span>
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/15/cmake调用第三方库/">cmake调用第三方库</a></h2>
+          <p>
+                  1   2   3   4   5   6   7   8   9   10   11        set (LIBSOCK_DIR /Users/hwp/work/eton_prj/smart_house_prj/source_demo/AndroidJni/app/libs/)  ...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item">cmake 第三方库</li>
+            
+          </ul>
+          <div class="post-info">
+            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1544880357000).fromNow()}}</span>
+          </div>
+        </li>
         
-          <span class="site-footer-item">
-            <a href="https://godbmw.com/design-patterns/" target="_blank">设计模式手册</a>
-          </span>
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/">为什么 pymysql 重连后才能查到新添加的数据</a></h2>
+          <p>
+               背景描述  项目中需要定时查询最新的环境采集数据，然后推送到 web 页面展示。 
+   还原问题  
+ 在 python 中使用了 pymsql 操作 mysql 数据库。 
+ 查询数据的时候，从数据库中读取一条数据之后，后面查到的数据永远不变。 
+ 只有重启程序重新建立连接之后，才能获取到...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item">pymysql</li>
+            
+          </ul>
+          <div class="post-info">
+            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1544879796000).fromNow()}}</span>
+          </div>
+        </li>
         
-      </div>
-    
-      <div class="site-footer-col">
-        <h5 class="site-footer-title">抓到我</h5>
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/15/python-基于-Pandas-数据处理/">python 基于 Pandas 数据处理</a></h2>
+          <p>
+             项目中需要把实时采集到的环境监测数据，进行分类汇总，所以借助 Pandas 进行数据处理。 
+ 原始数据格式 
+   
+ 采集数据主要是 PM2.5、温度、湿度、甲醛，时间间隔是20秒左右。 
+ 需要统计的数据 
+ 
+ 每天中截止统计时间PM2.5的最小值 
+ 获取4种类型的最新的采集数据 
+ 每...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item">Pandas</li>
+            
+          </ul>
+          <div class="post-info">
+            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1544879573000).fromNow()}}</span>
+          </div>
+        </li>
         
-          <span class="site-footer-item">
-            <a href="https://juejin.im/user/5b91fcf06fb9a05d3c7fd4a5" target="_blank">掘金</a>
-          </span>
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/15/使用-supervisor-管理进程/">使用 supervisor 管理进程</a></h2>
+          <p>
+             Supervisor ( http://supervisord.org ) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item">supervisor 管理进程</li>
+            
+          </ul>
+          <div class="post-info">
+            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
+            <span><i class="fa fa-tag"></i> 1 </span>
+            <span>Published {{moment(1544878286000).fromNow()}}</span>
+          </div>
+        </li>
         
-          <span class="site-footer-item">
-            <a href="https://segmentfault.com/" target="_blank">思否</a>
-          </span>
+        <li class="archive-list-item">
+          <h2><a href="/2018/12/15/hello-world/">Hello World</a></h2>
+          <p>
+             Welcome to  Hexo ! This is your very first post. Check  documentation  for more info. If you get any problems when using Hexo, you can find the answe...
+          </p>
+          <ul class="tag-list clearfix">
+            
+          </ul>
+          <div class="post-info">
+            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
+            <span><i class="fa fa-tag"></i> 0 </span>
+            <span>Published {{moment(1544876567440).fromNow()}}</span>
+          </div>
+        </li>
         
-      </div>
-    
-    <div class="site-footer-info">
-      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+      </ul>
     </div>
-    
-      <div class="site-footer-info">
-        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
-      </div>
-    
-    
-      <div class="site-footer-info">
-        <i class="fa fa-at"></i> Email: yuanxin.me@gmail.com
-      </div>
-    
-    <div class="site-footer-info">
-      <i class="fa fa-copyright"></i> 
-      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
-      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
-      All rights reserved.
+  </div>
+</div>
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <a href="http://yoursite.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2016 黄伟平</li>
+      <li><a href="http://yoursite.com">Home</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
     </div>
   </footer>
 </div>
-    <div id="site-layer" style="display:none;">
-  <div class="site-layer-content">
-    <div class="site-layer-header">
-      <span class="site-layer-header-title" id="site-layer-title"></span>
-      <i class="fa fa-close" id="site-layer-close"></i>
-    </div>
-    <div class="site-layer-body" id="site-layer-container">
-      <div class="site-layer-input" id="site-layer-search" style="display: none;">
-        <input type="text">
-        <i class="fa fa-search"></i>
-      </div>
-      <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
-        
-          <div>
-            <img src="/images/wechat.png" alt="WeChat">
-            
-              <p>WeChat</p>
-            
-          </div>
-        
-          <div>
-            <img src="/images/alipay.png" alt="AliPay">
-            
-              <p>AliPay</p>
-            
-          </div>
-        
-      </div>
-      <div id="site-layer-welcome" style="display:none;"></div>
-    </div>
-  </div>
-</div>
-    
-
-<div class="bottom-bar">
-  <div class="bottom-bar-left">
-    <a href="javascript:void(0);" data-enable="false">
-      <i class="fa fa-arrow-left"></i>
-    </a>
-    <a href="javascript:void(0);" data-enable="false">
-      <i class="fa fa-arrow-right"></i>
-    </a>
-  </div>
-  <div class="bottom-bar-right">
-    <a href="javascript:void(0);" data-enable="false" id="site-toc-show-btn">
-      <i class="fa fa-bars"></i>
-    </a>
-    
-      <a href="javascript:void(0);" data-enable="false">
-        <i class="fa fa-commenting"></i>
-      </a>
-    
-    <a href="javascript:void(0);" id="site-toggle-share-btn">
-      <i class="fa fa-share-alt"></i>
-    </a>
-    <a href="javascript:void(0);" id="site-reward">
-      <i class="fa fa-thumbs-up"></i>
-    </a>
-    <a href="javascript:void(0);" id="back-top-btn">
-      <i class="fa fa-chevron-up"></i>
-    </a>
-  </div>
-</div>
-    <div id="share-btn">
-  
-    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-twitter"></i>
-    </a>
-  
-  
-    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-facebook"></i>
-    </a>
-  
-  
-    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-weibo"></i>
-    </a>
-  
-  
-    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-qq"></i>
-    </a>
-  
-  
-    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-wechat"></i>
-    </a>
-  
-</div>
-    
 
 
 
 
+<script src="/js/main.js"></script>
 
-    
-  </body>
+</body>
 </html>

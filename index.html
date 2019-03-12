@@ -1,615 +1,476 @@
 <!DOCTYPE html>
-<html>
-  
+<html lang="zh_CN">
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  <meta name="author" content="Dong Yuanxin">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    技术之路
+  </title>
+  <meta name="description" content="">
   
-  
-  <title>技术之路</title>
+  <meta name="author" content="黄伟平">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
-  
-    <meta name="keywords" content="Hexo, Theme-AD">
-  
-
-  
-  <meta name="description" content="董沅鑫的小站">
-
-  
-
-  <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
-
-  
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
 
   
-    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
-  
 
-  <script>
-  // theme-ad's config script
-  // it can be used in every script
-  
-  window.AD_CONFIG = {
-    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":true,"count":true},
-    welcome: {"enable":true,"interval":30},
-    start_time: "2018-02-10",
-    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
-    is_post: false,
-    lock: false,
-    author: "Dong Yuanxin",
-    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
-    mathjax: true,
-    page_type: "",
-    root: "/"
-  };
-</script>
-
-  <script src="/vendor/sha256.min.js"></script>
-<script src="/js/auth.js"></script>
-<script src="/js/index.js"></script>
-<script src="/vendor/qrcode.min.js"></script>
-
-  
-    <link rel="icon" href="/images/favicon.ico">
-    <link rel="apple-touch-icon" href="/images/touch-icon.png">
-  
-
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="/css/index.css">
-<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
-
-  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 </head>
-  <body>
-    <header class="site-header">
-  <div class="site-header-brand">
-    
-      <span class="site-header-brand-title">
-        <a href="/">GODBMW</a>
-      </span>
-    
-    
-      <span class="site-header-brand-motto"> | 安静写些东西</span>
-    
-  </div>
-  <div class="site-header-right">
-    <nav class="site-header-navigation">
-      
-        <a href="/" target="_self">首页</a>
-      
-        <a href="/archives/" target="_self">归档</a>
-      
-        <a href="/tags/" target="_self">标签</a>
-      
-        <a href="/categories/" target="_self">分类</a>
-      
-        <a href="/friends/" target="_self">友链</a>
-      
-        <a href="/about/" target="_self">关于</a>
-      
-    </nav>
-    <div class="site-header-btn">
-      
-        <a href="https://github.com/dongyuanxin/" target="_blank" id="site-github">
-          <i class="fa fa-github-alt"></i>
-        </a>
-      
-      <a href="javascript:void(0);" id="site-search">
-        <i class="fa fa-search"></i>
-      </a>
-      <a href="javascript:void(0);" id="site-nav-btn">
-        <i class="fa fa-ellipsis-v"></i>
-      </a>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></a>
+        </li>
+      </ul>
     </div>
-  </div>
-</header>
-<nav class="table-content" id="site-nav">
-  <div class="table-content-title">
-    <span>导航</span>
-  </div>
-  <div class="table-content-main">
-    <ol class="toc">
-      
-        <li class="toc-item">
-          <a href="/" target="_self">
-            首页
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/archives/" target="_self">
-            归档
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/tags/" target="_self">
-            标签
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/categories/" target="_self">
-            分类
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/friends/" target="_self">
-            友链
-          </a>
-        </li>
-      
-        <li class="toc-item">
-          <a href="/about/" target="_self">
-            关于
-          </a>
-        </li>
-      
-    </ol>
   </div>
 </nav>
-<div id="site-process"></div>
-    <main>
-      <div class="home">
+
+<div class="main-container">
   
-    <div class="home-article-wrapper clearfix">
-      <div class="home-article" data-cover="false">
-        <div class="home-article-inner" data-cover="false">
-          <div class="passage-meta">
-            <span>
-              <i class="fa fa-calendar"></i>2018-12-15
-            </span>
-            
-            
-              <span>
-                | <i class="fa fa-unlock-alt"></i>UNLOCK
-              </span>
-            
-          </div>
-          <h1 class="home-article-title">
-            <a href="/passages/关于学习/">关于学习</a>
-          </h1>
-          <div class="home-article-content passage-article">
-            
-              
-            
-          </div>
-          <a class="home-article-read" href="/passages/关于学习/">
-            README MORE >>>
-          </a>
-          
-            <div class="passage-tags">
-             
-              <a href="/tags/学习/"><i class="fa fa-tags"></i>学习</a>
-            
-            </div>
-          
-        </div>
-        
-      </div>
+
+<div class="container-lg">
+  
+
+<div class="blog-intro">
+  <div class="blog-intro-user">
+    <img class="avatar" src="https://octodex.github.com/images/baracktocat.jpg">
+    <div class="user-name">
+      <div class="blog-title">技术之路</div>
+      <div class="blog-author">黄伟平</div>
+        <ul class="user-detail mobile-only">
+    
+    <li>
+      <i class="fa fa-link"></i>
+      <a href="http://yoursite.com">http://yoursite.com</a>
+    </li>
+  </ul>
     </div>
-  
-    <div class="home-article-wrapper clearfix">
-      <div class="home-article" data-cover="false">
-        <div class="home-article-inner" data-cover="false">
-          <div class="passage-meta">
-            <span>
-              <i class="fa fa-calendar"></i>2018-12-15
-            </span>
-            
-            
-              <span>
-                | <i class="fa fa-unlock-alt"></i>UNLOCK
-              </span>
-            
-          </div>
-          <h1 class="home-article-title">
-            <a href="/passages/创业的几点建议/">创业的几点建议</a>
-          </h1>
-          <div class="home-article-content passage-article">
-            
-              
-            
-          </div>
-          <a class="home-article-read" href="/passages/创业的几点建议/">
-            README MORE >>>
-          </a>
-          
-            <div class="passage-tags">
-             
-              <a href="/tags/创业/"><i class="fa fa-tags"></i>创业</a>
-            
-            </div>
-          
-        </div>
-        
-      </div>
+    <div class="blog-description">
+      
     </div>
-  
-    <div class="home-article-wrapper clearfix">
-      <div class="home-article" data-cover="false">
-        <div class="home-article-inner" data-cover="false">
-          <div class="passage-meta">
-            <span>
-              <i class="fa fa-calendar"></i>2018-12-15
-            </span>
-            
-            
-              <span>
-                | <i class="fa fa-unlock-alt"></i>UNLOCK
-              </span>
-            
-          </div>
-          <h1 class="home-article-title">
-            <a href="/passages/git-flow工作流/">git-flow工作流</a>
-          </h1>
-          <div class="home-article-content passage-article">
-            
-              
-            
-          </div>
-          <a class="home-article-read" href="/passages/git-flow工作流/">
-            README MORE >>>
-          </a>
-          
-            <div class="passage-tags">
-             
-              <a href="/tags/gitflow/"><i class="fa fa-tags"></i>gitflow</a>
-            
-            </div>
-          
-        </div>
-        
-      </div>
-    </div>
-  
-    <div class="home-article-wrapper clearfix">
-      <div class="home-article" data-cover="false">
-        <div class="home-article-inner" data-cover="false">
-          <div class="passage-meta">
-            <span>
-              <i class="fa fa-calendar"></i>2018-12-15
-            </span>
-            
-            
-              <span>
-                | <i class="fa fa-unlock-alt"></i>UNLOCK
-              </span>
-            
-          </div>
-          <h1 class="home-article-title">
-            <a href="/passages/cmake调用第三方库/">cmake调用第三方库</a>
-          </h1>
-          <div class="home-article-content passage-article">
-            
-              
-            
-          </div>
-          <a class="home-article-read" href="/passages/cmake调用第三方库/">
-            README MORE >>>
-          </a>
-          
-            <div class="passage-tags">
-             
-              <a href="/tags/cmake-第三方库/"><i class="fa fa-tags"></i>cmake 第三方库</a>
-            
-            </div>
-          
-        </div>
-        
-      </div>
-    </div>
-  
-    <div class="home-article-wrapper clearfix">
-      <div class="home-article" data-cover="false">
-        <div class="home-article-inner" data-cover="false">
-          <div class="passage-meta">
-            <span>
-              <i class="fa fa-calendar"></i>2018-12-15
-            </span>
-            
-            
-              <span>
-                | <i class="fa fa-unlock-alt"></i>UNLOCK
-              </span>
-            
-          </div>
-          <h1 class="home-article-title">
-            <a href="/passages/为什么-pymysql-重连后才能查到新添加的数据/">为什么 pymysql 重连后才能查到新添加的数据</a>
-          </h1>
-          <div class="home-article-content passage-article">
-            
-              
-            
-          </div>
-          <a class="home-article-read" href="/passages/为什么-pymysql-重连后才能查到新添加的数据/">
-            README MORE >>>
-          </a>
-          
-            <div class="passage-tags">
-             
-              <a href="/tags/pymysql/"><i class="fa fa-tags"></i>pymysql</a>
-            
-            </div>
-          
-        </div>
-        
-      </div>
-    </div>
-  
-    <div class="home-article-wrapper clearfix">
-      <div class="home-article" data-cover="false">
-        <div class="home-article-inner" data-cover="false">
-          <div class="passage-meta">
-            <span>
-              <i class="fa fa-calendar"></i>2018-12-15
-            </span>
-            
-            
-              <span>
-                | <i class="fa fa-unlock-alt"></i>UNLOCK
-              </span>
-            
-          </div>
-          <h1 class="home-article-title">
-            <a href="/passages/python-基于-Pandas-数据处理/">python 基于 Pandas 数据处理</a>
-          </h1>
-          <div class="home-article-content passage-article">
-            
-              
-            
-          </div>
-          <a class="home-article-read" href="/passages/python-基于-Pandas-数据处理/">
-            README MORE >>>
-          </a>
-          
-            <div class="passage-tags">
-             
-              <a href="/tags/Pandas/"><i class="fa fa-tags"></i>Pandas</a>
-            
-            </div>
-          
-        </div>
-        
-      </div>
-    </div>
-  
-    <div class="home-article-wrapper clearfix">
-      <div class="home-article" data-cover="false">
-        <div class="home-article-inner" data-cover="false">
-          <div class="passage-meta">
-            <span>
-              <i class="fa fa-calendar"></i>2018-12-15
-            </span>
-            
-            
-              <span>
-                | <i class="fa fa-unlock-alt"></i>UNLOCK
-              </span>
-            
-          </div>
-          <h1 class="home-article-title">
-            <a href="/passages/使用-supervisor-管理进程/">使用 supervisor 管理进程</a>
-          </h1>
-          <div class="home-article-content passage-article">
-            
-              
-            
-          </div>
-          <a class="home-article-read" href="/passages/使用-supervisor-管理进程/">
-            README MORE >>>
-          </a>
-          
-            <div class="passage-tags">
-             
-              <a href="/tags/supervisor-管理进程/"><i class="fa fa-tags"></i>supervisor 管理进程</a>
-            
-            </div>
-          
-        </div>
-        
-      </div>
-    </div>
-  
-    <div class="home-article-wrapper clearfix">
-      <div class="home-article" data-cover="false">
-        <div class="home-article-inner" data-cover="false">
-          <div class="passage-meta">
-            <span>
-              <i class="fa fa-calendar"></i>2018-12-15
-            </span>
-            
-            
-              <span>
-                | <i class="fa fa-unlock-alt"></i>UNLOCK
-              </span>
-            
-          </div>
-          <h1 class="home-article-title">
-            <a href="/passages/hello-world/">Hello World</a>
-          </h1>
-          <div class="home-article-content passage-article">
-            
-              
-            
-          </div>
-          <a class="home-article-read" href="/passages/hello-world/">
-            README MORE >>>
-          </a>
-          
-        </div>
-        
-      </div>
-    </div>
-  
+  </div>
+
+  <ul class="user-detail desktop-only">
+    
+    <li>
+      <i class="fa fa-link"></i>
+      <a href="http://yoursite.com">http://yoursite.com</a>
+    </li>
+  </ul>
+
+  <div class="social-media desktop-only">
+    <h4>Social Media</h4>
+    <ul>
+      
+    </ul>
+  </div>
 </div>
-    </main>
+
+
+  <div class="blog-detail">
     
-    <div class="site-footer-wrapper">
-  <footer class="site-footer">
-    
-      <div class="site-footer-col">
-        <h5 class="site-footer-title">博客推荐</h5>
+<nav class="blog-detail-nav desktop-only">
+  <ul class="clearfix">
+    <li class="selected">
+      <a href="/">Overview</a></li>
+    <li class="">
+      <a href="/archives">Posts <span class="counter">8</span></a>
+    </li>
+    <li class="">
+      <a href="/categories">Categories <span class="counter">0</span></a></li>
+    <li class="">
+      <a href="/tags">Tags <span class="counter">7</span></a></li>
+  </ul>
+</nav>
+
+    <div class="body-secondary">
+      <p class="right-title">Recent post</p>
+      <ul class="recent-post clearfix">
         
-          <span class="site-footer-item">
-            <a href="https://godbmw.com/" target="_blank">GodBMW</a>
-          </span>
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2018/12/15/关于学习/">关于学习</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+               什么是读书？ 读书是向外的，称之为看。  
+ 什么是静坐？ 静坐是向内的，称之为观  
+   说看
+            </p>
+            <p class="post-info desktop-only">
+              <span><i class="fa fa-folder-open"></i> Uncategorized</span>
+              <span><i class="fa fa-tag"></i> 1 </span>
+            </p>
+          </div>
+        </li>
         
-          <span class="site-footer-item">
-            <a href="http://ruanyifeng.com/" target="_blank">阮一峰的个人网站</a>
-          </span>
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2018/12/15/创业的几点建议/">创业的几点建议</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+               
+  先兼职完成探索的闭环，赚到第一块钱，兼职完不成赚一块钱的目标，全职也很难 ，只有当闭环走完，
+            </p>
+            <p class="post-info desktop-only">
+              <span><i class="fa fa-folder-open"></i> Uncategorized</span>
+              <span><i class="fa fa-tag"></i> 1 </span>
+            </p>
+          </div>
+        </li>
         
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2018/12/15/git-flow工作流/">git-flow工作流</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+               git-flow是当前非常流行的项目工作流程，可以在团队中行程一个特定有效的工作流程，解决团队开发
+            </p>
+            <p class="post-info desktop-only">
+              <span><i class="fa fa-folder-open"></i> Uncategorized</span>
+              <span><i class="fa fa-tag"></i> 1 </span>
+            </p>
+          </div>
+        </li>
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2018/12/15/cmake调用第三方库/">cmake调用第三方库</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+                    1   2   3   4   5   6   7   8   9   10   11 
+            </p>
+            <p class="post-info desktop-only">
+              <span><i class="fa fa-folder-open"></i> Uncategorized</span>
+              <span><i class="fa fa-tag"></i> 1 </span>
+            </p>
+          </div>
+        </li>
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/">为什么 pymysql 重连后才能查到新添加的数据</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+                 背景描述  项目中需要定时查询最新的环境采集数据，然后推送到 web 页面展示。 
+   还原
+            </p>
+            <p class="post-info desktop-only">
+              <span><i class="fa fa-folder-open"></i> Uncategorized</span>
+              <span><i class="fa fa-tag"></i> 1 </span>
+            </p>
+          </div>
+        </li>
+        
+        <li class="recent-post-item">
+          <div class="clearfix">
+            <h5 class="post-title text-ellipsis">
+              <i class="fa fa-bars"></i>
+              <a href="/2018/12/15/python-基于-Pandas-数据处理/">python 基于 Pandas 数据处理</a>
+            </h5>
+            <p class="post-description text-ellipsis desktop-only">
+               项目中需要把实时采集到的环境监测数据，进行分类汇总，所以借助 Pandas 进行数据处理。 
+ 原
+            </p>
+            <p class="post-info desktop-only">
+              <span><i class="fa fa-folder-open"></i> Uncategorized</span>
+              <span><i class="fa fa-tag"></i> 1 </span>
+            </p>
+          </div>
+        </li>
+        
+      </ul>
+      <div class="calendar-container" id="calendar">
+  <div class="calendar">
+    <h3>
+      {{posts.length}} contributions in the last year
+    </h3>
+    <div class="calendar-graph-container">
+      <div class="calendar-graph">
+        <svg width="676" height="104" @mouseout="mouseoverDate=null">
+          <g transform="translate(16, 20)">
+            <g v-for="week in calendar" :transform="week.transform">
+              <rect v-for="day in week.days" :x="day.x" :y="day.y" :fill="day.fill" @click="selectedDate=day.date" @mouseover="mouseoverDate=day.date" :class="{active:selectedDate===day.date}" data-count="{{day.posts.length}}" data-date="{{day.date}}" class="day" width="10" height="10"/>
+            </g>
+
+            <text v-for="month in monthLabels" :x="month.x" y="-5" class="month">{{month.text}}
+            </text>
+
+
+            <text text-anchor="start" class="wday" dx="-14" dy="8" style="display: none;">S
+            </text>
+            <text text-anchor="start" class="wday" dx="-14" dy="20">Mon</text>
+            <text text-anchor="start" class="wday" dx="-14" dy="32" style="display: none;">T
+            </text>
+            <text text-anchor="start" class="wday" dx="-14" dy="44">Wed</text>
+            <text text-anchor="start" class="wday" dx="-14" dy="57" style="display: none;">T
+            </text>
+            <text text-anchor="start" class="wday" dx="-14" dy="69">Fri</text>
+            <text text-anchor="start" class="wday" dx="-14" dy="81" style="display: none;">S
+            </text>
+          </g>
+        </svg>
+        <div class="svg-tip svg-tip-one-line" v-bind:style="{ top: svgtip.top, left: svgtip.left, display: svgtip.display}">
+          <strong>{{svgtip.text}}</strong> on
+          {{moment(mouseoverDate).format('MMM DD, YYYY')}}
+        </div>
       </div>
-    
-      <div class="site-footer-col">
-        <h5 class="site-footer-title">系列教程</h5>
-        
-          <span class="site-footer-item">
-            <a href="https://godbmw.com/categories/webpack4%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B/" target="_blank">webpack4系列教程</a>
-          </span>
-        
-          <span class="site-footer-item">
-            <a href="https://godbmw.com/design-patterns/" target="_blank">设计模式手册</a>
-          </span>
-        
+      <div class="calendar-footer clearfix">
+      <span>
+        <a href="#">Learn how we count contributions.</a>
+      </span>
+        <div class="calendar-legend">
+          <span>Less</span>
+          <ul class="legend">
+            <li style="background-color: #eee"></li>
+            <li style="background-color: #d6e685"></li>
+            <li style="background-color: #8cc665"></li>
+            <li style="background-color: #44a340"></li>
+            <li style="background-color: #1e6823"></li>
+          </ul>
+          <span>More</span>
+        </div>
       </div>
-    
-      <div class="site-footer-col">
-        <h5 class="site-footer-title">抓到我</h5>
-        
-          <span class="site-footer-item">
-            <a href="https://juejin.im/user/5b91fcf06fb9a05d3c7fd4a5" target="_blank">掘金</a>
-          </span>
-        
-          <span class="site-footer-item">
-            <a href="https://segmentfault.com/" target="_blank">思否</a>
-          </span>
-        
-      </div>
-    
-    <div class="site-footer-info">
-      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
     </div>
-    
-      <div class="site-footer-info">
-        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
-      </div>
-    
-    
-      <div class="site-footer-info">
-        <i class="fa fa-at"></i> Email: yuanxin.me@gmail.com
-      </div>
-    
-    <div class="site-footer-info">
-      <i class="fa fa-copyright"></i> 
-      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
-      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
-      All rights reserved.
+  </div>
+
+  <h3>Contribution activity</h3>
+  <div class="contribution-list">
+    <ul>
+      <li v-for="post in posts | filterBy selectedDate in 'date'">
+        <a href="{{post.url}}">{{post.title}}
+        </a>
+        <span>{{post.date}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<script>
+  var posts = [{"date":"2018-12-15","title":"git-flow工作流","url":"http://yoursite.com/2018/12/15/git-flow工作流/"},{"date":"2018-12-15","title":"创业的几点建议","url":"http://yoursite.com/2018/12/15/创业的几点建议/"},{"date":"2018-12-15","title":"关于学习","url":"http://yoursite.com/2018/12/15/关于学习/"},{"date":"2018-12-15","title":"Hello World","url":"http://yoursite.com/2018/12/15/hello-world/"},{"date":"2018-12-15","title":"python 基于 Pandas 数据处理","url":"http://yoursite.com/2018/12/15/python-基于-Pandas-数据处理/"},{"date":"2018-12-15","title":"为什么 pymysql 重连后才能查到新添加的数据","url":"http://yoursite.com/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/"},{"date":"2018-12-15","title":"使用 supervisor 管理进程","url":"http://yoursite.com/2018/12/15/使用-supervisor-管理进程/"},{"date":"2018-12-15","title":"cmake调用第三方库","url":"http://yoursite.com/2018/12/15/cmake调用第三方库/"}];
+  var today = moment().format('YYYY-MM-DD');
+  var oneYearAgo = moment(today).subtract(1, 'years');
+  posts = posts.filter(function(post) {
+    return new Date(post.date) > oneYearAgo;
+  });
+  var monthLabels = [];
+  var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var calendar = getCalendar(posts);
+
+  var dateRange = {
+    start: moment(oneYearAgo).format('MMM D, YYYY'),
+    end: moment().format('MMM D, YYYY')
+  }
+
+  var app = new Vue({
+    el: '#calendar',
+    data: {
+      posts: posts,
+      selectedDate: null,
+      calendar: calendar,
+      dateRange: dateRange,
+      mouseoverDate: null,
+      moment: moment,
+      monthLabels: monthLabels
+    },
+    created: function() {
+      this.selectedDate = 'none';
+    },
+    methods: {},
+    computed: {
+      svgtip: function() {
+        var date = this.mouseoverDate;
+        var display = date ? 'block' : 'none';
+        if (date) {
+          var coordinator = getIndexByDate(date);
+          var x = coordinator[0];
+          var y = coordinator[1];
+          var len = this.calendar[x].days[y].posts.length;
+          var text = len ? len + ' contributions' : 'No contributions';
+          var left = coordinator[0] * 12 - 37 + 'px';
+          coordinator[1] = coordinator[0] ? coordinator[1] : coordinator[1] + oneYearAgo.day();
+          var top = coordinator[1] * 12 + 12 - 32 + 'px';
+        }
+        return {
+          text: text,
+          left: left,
+          top: top,
+          display: display
+        }
+      }
+    }
+  });
+
+  function getCalendar(posts) {
+    // raw calendar
+    var maxCount = 0;
+    var tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    var tmrStr = tmr.toISOString().slice(0, 10);
+    var date = new Date();
+    date.setYear(date.getFullYear() - 1); // start date is a year ago;
+    var calendar = [];
+    while (date.toISOString().slice(0, 10) !== tmrStr) {
+      var day = date.getDay();
+      if (day === 0 || calendar.length === 0) {
+        var x = calendar.length * 13;
+        calendar.push({
+          transform: 'translate(' + x + ',0)',
+          days: []
+        })
+      }
+
+      calendar[calendar.length - 1].days.push({
+        x: 14 - calendar.length,
+        y: day * 12,
+        date: date.toISOString().slice(0, 10),
+        posts: []
+      });
+
+      if (day === 0 && date.getDate() < 8) {
+        monthLabels.push({
+          x: 14 - calendar.length + x,
+          text: monthName[date.getMonth() - 1]
+        })
+      }
+
+      date.setDate(date.getDate() + 1);
+    }
+
+    // handle post info
+    posts.forEach(function(post) {
+      var x = getIndexByDate(post.date)[0];
+      var y = getIndexByDate(post.date)[1];
+
+      calendar[x].days[y].posts.push({
+        title: post.title,
+        url: post.url
+      });
+
+      var len = calendar[x].days[y].posts.length;
+      maxCount = Math.max(len, maxCount);
+    })
+
+    // handle fill color
+    calendar.forEach(function(week) {
+      week.days.forEach(function(day) {
+        day.fill = getColorByLength(day.posts.length, maxCount);
+      })
+    })
+
+    return calendar;
+  }
+
+  function getIndexByDate(date) {
+    date = moment(date);
+    var firstColumnLen = 7 - oneYearAgo.day();
+    var days = date.diff(oneYearAgo, 'days');
+
+    var x = days > firstColumnLen - 1 ? Math.ceil((days - firstColumnLen + 1) / 7) : 0;
+    var y = days > firstColumnLen - 1 ? date.day() : date.day() - oneYearAgo.day();
+    return [x, y];
+  }
+
+  function getColorByLength(len, max) {
+    var colors = ['#eee', '#d6e685', '#8cc665', '#44a340', '#1e6823'];
+    var colorsLen = colors.length - 1;
+    var color = len ? colors[0] : colors[1];
+    var interval = max / colorsLen;
+    if (max < colorsLen) {
+      color = colors[len];
+    } else {
+      color = colors[Math.ceil(len / interval)];
+    }
+    return color;
+  }
+
+</script>
+
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <a href="http://yoursite.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2016 黄伟平</li>
+      <li><a href="http://yoursite.com">Home</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
     </div>
   </footer>
 </div>
-    <div id="site-layer" style="display:none;">
-  <div class="site-layer-content">
-    <div class="site-layer-header">
-      <span class="site-layer-header-title" id="site-layer-title"></span>
-      <i class="fa fa-close" id="site-layer-close"></i>
-    </div>
-    <div class="site-layer-body" id="site-layer-container">
-      <div class="site-layer-input" id="site-layer-search" style="display: none;">
-        <input type="text">
-        <i class="fa fa-search"></i>
-      </div>
-      <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
-        
-          <div>
-            <img src="/images/wechat.png" alt="WeChat">
-            
-              <p>WeChat</p>
-            
-          </div>
-        
-          <div>
-            <img src="/images/alipay.png" alt="AliPay">
-            
-              <p>AliPay</p>
-            
-          </div>
-        
-      </div>
-      <div id="site-layer-welcome" style="display:none;"></div>
-    </div>
-  </div>
-</div>
-    
-
-<div class="bottom-bar">
-  <div class="bottom-bar-left">
-    <a href="javascript:void(0);" data-enable="false">
-      <i class="fa fa-arrow-left"></i>
-    </a>
-    <a href="javascript:void(0);" data-enable="false">
-      <i class="fa fa-arrow-right"></i>
-    </a>
-  </div>
-  <div class="bottom-bar-right">
-    <a href="javascript:void(0);" data-enable="false" id="site-toc-show-btn">
-      <i class="fa fa-bars"></i>
-    </a>
-    
-      <a href="javascript:void(0);" data-enable="false">
-        <i class="fa fa-commenting"></i>
-      </a>
-    
-    <a href="javascript:void(0);" id="site-toggle-share-btn">
-      <i class="fa fa-share-alt"></i>
-    </a>
-    <a href="javascript:void(0);" id="site-reward">
-      <i class="fa fa-thumbs-up"></i>
-    </a>
-    <a href="javascript:void(0);" id="back-top-btn">
-      <i class="fa fa-chevron-up"></i>
-    </a>
-  </div>
-</div>
-    <div id="share-btn">
-  
-    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-twitter"></i>
-    </a>
-  
-  
-    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-facebook"></i>
-    </a>
-  
-  
-    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-weibo"></i>
-    </a>
-  
-  
-    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-qq"></i>
-    </a>
-  
-  
-    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
-      <i class="fa fa-wechat"></i>
-    </a>
-  
-</div>
-    
 
 
 
 
+<script src="/js/main.js"></script>
 
-    
-  </body>
+</body>
 </html>
