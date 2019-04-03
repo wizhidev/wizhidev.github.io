@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    python 基于 Pandas 数据处理 | 全干程序员
+  </title>
+  <meta name="description" content="">
+  
+  <meta name="keywords" content="
+  Pandas
+  ">
+  
+  <meta name="author" content="wizhidev&amp;huang">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+  <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives" class="header-toolbar-right"> 9 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i class="fa fa-tags"></i> Tags </a>
+        <a href="/tags" class="header-toolbar-right"> 8 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories" class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">全干程序员</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    wizhidev&amp;huang
+
+    <span class="post-date float-right" title="{{moment(1544879573000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1544879573000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>python 基于 Pandas 数据处理</h1>
+    <p>项目中需要把实时采集到的环境监测数据，进行分类汇总，所以借助 Pandas 进行数据处理。</p>
+<p>原始数据格式</p>
+<p><img src="http://wzhicoder-mk-pic.oss-cn-beijing.aliyuncs.com/mk/2018-12-12-141510.png" alt="Snip20181212_1"></p>
+<p>采集数据主要是 PM2.5、温度、湿度、甲醛，时间间隔是20秒左右。</p>
+<p>需要统计的数据</p>
+<ol>
+<li>每天中截止统计时间PM2.5的最小值</li>
+<li>获取4种类型的最新的采集数据</li>
+<li>每个月的4种类型数据的平均值</li>
+<li>每天中从早上8点开始，间隔1个小时的 PM2.5、温度、湿度数据</li>
+</ol>
+<h3 id="数据处理过程"><a href="#数据处理过程" class="headerlink" title="数据处理过程"></a>数据处理过程</h3><h4 id="初始化数据"><a href="#初始化数据" class="headerlink" title="初始化数据"></a>初始化数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame([[ij <span class="keyword">for</span> ij <span class="keyword">in</span> i] <span class="keyword">for</span> i <span class="keyword">in</span> data])</span><br><span class="line">df.columns = [<span class="string">'id'</span>, <span class="string">'uuid'</span>, <span class="string">'room'</span>, <span class="string">'pm25'</span>, <span class="string">'temp'</span>, <span class="string">'hum'</span>, <span class="string">'voc'</span>, <span class="string">'time'</span>]</span><br><span class="line">df = df.set_index(<span class="string">'time'</span>)<span class="comment"># 将date设置为index</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>data 是从数据库获取的所有数据</strong></p>
+<h4 id="获取截止时间-PM2-5的最小值"><a href="#获取截止时间-PM2-5的最小值" class="headerlink" title="获取截止时间 PM2.5的最小值"></a>获取截止时间 PM2.5的最小值</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment"># 先获取当前月份</span></span><br><span class="line">&gt; now_time = datetime.datetime.now()</span><br><span class="line">&gt; <span class="comment"># print(now_time)</span></span><br><span class="line">&gt; month = now_time.strftime(<span class="string">'%Y-%m'</span>)</span><br><span class="line">&gt; </span><br><span class="line">&gt; <span class="comment"># 当月最小的pm2.5，month='2018-12'</span></span><br><span class="line">&gt; pm25_min = df[month][<span class="string">'pm25'</span>].min()</span><br><span class="line">&gt; print(<span class="string">'pm25_min='</span> + pm25_min)</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>以时间筛选之后，调用函数 min 获取’pm25’这列的最小值</strong></p>
+<h4 id="获取4种类型最新的采集数据"><a href="#获取4种类型最新的采集数据" class="headerlink" title="获取4种类型最新的采集数据"></a>获取4种类型最新的采集数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前温度值</span></span><br><span class="line">cur_temp = df[<span class="string">'temp'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前湿度值</span></span><br><span class="line">cur_hum = df[<span class="string">'hum'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前 PM25值</span></span><br><span class="line">cur_pm25 = df[<span class="string">'pm25'</span>].values[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 当前 voc 值</span></span><br><span class="line">cur_voc = df[<span class="string">'voc'</span>].values[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>获取某一列的第一个数据</strong></p>
+<h4 id="每个月的4种类型数据的平均值"><a href="#每个月的4种类型数据的平均值" class="headerlink" title="每个月的4种类型数据的平均值"></a>每个月的4种类型数据的平均值</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当月平均PM25</span></span><br><span class="line">pm25_sum = df[month][<span class="string">'pm25'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_pm25_sum = ' + str(pm25_sum))</span></span><br><span class="line">avg_pm25 = int(pm25_sum / df[month][<span class="string">'pm25'</span>].count())</span><br><span class="line">print(<span class="string">'avg_pm25 = '</span> + str(avg_pm25))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当月平均温度</span></span><br><span class="line">temp_sum = df[month][<span class="string">'temp'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_temp_sum = ' + str(temp_sum))</span></span><br><span class="line">avg_temp = int(temp_sum / df[month][<span class="string">'temp'</span>].count())</span><br><span class="line">print(<span class="string">'avg_temp = '</span> + str(avg_temp))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当月平均湿度</span></span><br><span class="line">hum_sum = df[month][<span class="string">'hum'</span>].apply(int).sum()</span><br><span class="line"><span class="comment"># print('month_hum_sum = ' + str(temp_sum))</span></span><br><span class="line">avg_hum = int(hum_sum / df[month][<span class="string">'hum'</span>].count())</span><br><span class="line">print(<span class="string">'avg_hum = '</span> + str(avg_hum))</span><br></pre></td></tr></table></figure>
+<p><strong>当月所有数据总和除以数据项</strong></p>
+<p>####每天中从早上8点开始，间隔1个小时的 PM2.5、温度、湿度数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">now_time = datetime.datetime.now()</span><br><span class="line"><span class="comment"># print(now_time)</span></span><br><span class="line">day = now_time.strftime(<span class="string">'%Y-%m-%d'</span>)</span><br><span class="line"></span><br><span class="line">temp_ar = []</span><br><span class="line">hum_ar = []</span><br><span class="line">pm25_ar = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>, <span class="number">16</span>):</span><br><span class="line">    <span class="keyword">if</span> i &lt; <span class="number">10</span>:</span><br><span class="line">        time = day + <span class="string">" 0"</span> + str(i)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        time = day + <span class="string">" "</span> + str(i)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        temp = df[time][<span class="string">'temp'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        temp = <span class="number">0</span></span><br><span class="line">    temp_ar.append(temp)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        hum = df[time][<span class="string">'hum'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        hum = <span class="number">0</span></span><br><span class="line">    hum_ar.append(hum)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        pm25 = df[time][<span class="string">'pm25'</span>].values[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        pm25 = <span class="number">0</span></span><br><span class="line">    pm25_ar.append(pm25)</span><br></pre></td></tr></table></figure>
+<p><strong>获取日期到天，然后加上时间’2018-12-12 08’的格式筛选出某个时间点第一个数据</strong></p>
+<h3 id="用到的技术点"><a href="#用到的技术点" class="headerlink" title="用到的技术点"></a>用到的技术点</h3><h4 id="Pandas-日期数据处理"><a href="#Pandas-日期数据处理" class="headerlink" title="Pandas 日期数据处理"></a>Pandas 日期数据处理</h4><h5 id="按日期筛选数据"><a href="#按日期筛选数据" class="headerlink" title="按日期筛选数据"></a>按日期筛选数据</h5><ol>
+<li><p><strong>按年度获取数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">`print(<span class="string">'---------获取2018年的数据-----------'</span>)`</span><br><span class="line">`print(df[<span class="string">'2018'</span>].head(<span class="number">2</span>)) <span class="comment"># 获取2018年的数据前两条`</span></span><br><span class="line">`print(df[<span class="string">'2018'</span>].tail(<span class="number">2</span>)) <span class="comment"># 获取2018年的数据后两条</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取跨年数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取2017至2018年的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2017'</span>:<span class="string">'2018'</span>].head(<span class="number">2</span>))  <span class="comment">#获取2016至2017年的数据</span></span><br><span class="line">print(df[<span class="string">'2017'</span>:<span class="string">'2018'</span>].tail(<span class="number">2</span>))  <span class="comment">#获取2016至2017年的数据</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取某月数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取某月的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2018-12'</span>]) <span class="comment"># 获取某月的数据</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取某天的数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按日期筛选数据</span></span><br><span class="line">print(<span class="string">'---------获取具体某天的数据-----------'</span>)</span><br><span class="line"><span class="comment"># 获取具体某天的数据</span></span><br><span class="line">print(df[<span class="string">'2018-12-12'</span>])</span><br><span class="line"><span class="comment"># 可以考虑用区间来获取某天的数据</span></span><br><span class="line">print(df[<span class="string">'2018-12-11'</span>:<span class="string">'2018-12-12'</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取某个时期之前或之后的数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dataframe的truncate函数可以获取某个时期之前或之后的数据，或者某个时间区间的数据</span></span><br><span class="line"><span class="comment"># 但一般建议直接用切片（slice），这样更为直观，方便</span></span><br><span class="line">print(<span class="string">'---------获取某个时期之前或之后的数据-----------'</span>)</span><br><span class="line">print(<span class="string">'--------after------------'</span>)</span><br><span class="line">print(df.truncate(after = <span class="string">'2018-11'</span>))</span><br><span class="line">print(<span class="string">'--------before------------'</span>)</span><br><span class="line">print(df.truncate(before=<span class="string">'2018-12'</span>))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取某个时间点的数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'---------获取某个时间点的数据-----------'</span>)</span><br><span class="line">print(df[<span class="string">'2018-12-12 10'</span>]) <span class="comment"># 获取12月12日，10点的数据</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="pd-DataFrame-统计各列数值多少"><a href="#pd-DataFrame-统计各列数值多少" class="headerlink" title="pd.DataFrame 统计各列数值多少"></a>pd.DataFrame 统计各列数值多少</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.count()          <span class="comment">#非空元素计算</span></span><br><span class="line">.min()   a         <span class="comment">#最小值</span></span><br><span class="line">.max()            <span class="comment">#最大值</span></span><br><span class="line">.idxmin()         <span class="comment">#最小值的位置，类似于R中的which.min函数</span></span><br><span class="line">.idxmax()         <span class="comment">#最大值的位置，类似于R中的which.max函数</span></span><br><span class="line">.quantile(<span class="number">0.75</span>)    <span class="comment">#75%分位数</span></span><br><span class="line">.sum()            <span class="comment">#求和</span></span><br><span class="line">.mean()           <span class="comment">#均值</span></span><br><span class="line">.median()         <span class="comment">#中位数</span></span><br><span class="line">.mode()           <span class="comment">#众数</span></span><br><span class="line">.var()            <span class="comment">#方差</span></span><br><span class="line">.std()            <span class="comment">#标准差</span></span><br><span class="line">.mad()            <span class="comment">#平均绝对偏差</span></span><br><span class="line">.skew()           <span class="comment">#偏度</span></span><br><span class="line">.kurt()           <span class="comment">#峰度</span></span><br><span class="line">.describe()       <span class="comment">#一次性输出多个描述性统计指标</span></span><br></pre></td></tr></table></figure>
+<h5 id="将-pandas-数据帧中的列从-int-转换为字符串"><a href="#将-pandas-数据帧中的列从-int-转换为字符串" class="headerlink" title="将 pandas 数据帧中的列从 int 转换为字符串"></a>将 pandas 数据帧中的列从 int 转换为字符串</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">'A'</span>].apply(str)</span><br></pre></td></tr></table></figure>
+<p>将 <strong>int</strong>转化为<strong>str</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[month][<span class="string">'pm25'</span>].apply(int)</span><br></pre></td></tr></table></figure>
+<p>将 <strong>str</strong>转化为<strong>int</strong></p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <a href="http://yoursite.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2016 wizhidev&amp;huang</li>
+      <li><a href="http://yoursite.com">Home</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
