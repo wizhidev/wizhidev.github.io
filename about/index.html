@@ -16,144 +16,90 @@
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
 
-  <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
+  <link rel="shortcut icon" type="image/ico" href="/favicon.ico">
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  
-
-  
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 </head>
 
-<body id="replica-app">
-
-<nav class="navbar-wrapper">
-  <div class="navbar">
-    <div class="container clearfix">
-      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
-
-      <div class="navbar-search float-left desktop-only">
-        <div class="navbar-search-form">
-          <label for="gsc-i-id1">This website</label>
-          <div id="google-search">
-            <gcse:search></gcse:search>
-          </div>
-        </div>
-      </div>
-
-      <ul class="navbar-nav float-left">
-        
-        <li><a href="/archives">Archives</a></li>
-        
-        
-        <li><a href="/categories">Categories</a></li>
-        
-        
-        <li><a href="/tags">Tags</a></li>
-        
-        
-        <li><a href="/atom.xml" target="_blank">RSS</a></li>
-        
-      </ul>
-
-      <ul class="navbar-nav user-nav float-right desktop-only">
-        <li class="user-nav-notification">
-          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
-        </li>
-        <li>
-          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
-        </li>
-        <li class="user-nav-logo">
-          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></a>
-        </li>
-      </ul>
+<body>
+<nav>
+  <div class="container">
+    <a href="/" class="site-logo"><i class="fa fa-github"></i></a>
+    <div class="site-search">
+      <form onsubmit="return search()">
+        <label class="form-control">
+          <span class="scope-badge">This website</span>
+          <input id="query" type="text" placeholder="Search" value="">
+          <span class="scope-badge clear-search"> x </span>
+        </label>
+      </form>
     </div>
-  </div>
-</nav>
-
-<div class="main-container">
-  <div class="container-lg">
-  
-
-<div class="blog-intro">
-  <div class="blog-intro-user">
-    <img class="avatar" src="https://octodex.github.com/images/baracktocat.jpg">
-    <div class="user-name">
-      <div class="blog-title">全干程序员</div>
-      <div class="blog-author">wizhidev&amp;huang</div>
-        <ul class="user-detail mobile-only">
-    
-    <li>
-      <i class="fa fa-link"></i>
-      <a href="http://yoursite.com">http://yoursite.com</a>
-    </li>
-  </ul>
-    </div>
-    <div class="blog-description">
-      
-    </div>
-  </div>
-
-  <ul class="user-detail desktop-only">
-    
-    <li>
-      <i class="fa fa-link"></i>
-      <a href="http://yoursite.com">http://yoursite.com</a>
-    </li>
-  </ul>
-
-  <div class="social-media desktop-only">
-    <h4>Social Media</h4>
     <ul>
       
+      <li><a href="/archives">Archives</a></li>
+      
+      
+      <li><a href="/categories">Categories</a></li>
+      
+      
+      <li><a href="/tags">Tags</a></li>
+      
+      
+      <li><a href="/atom.xml">RSS</a></li>
+      
     </ul>
   </div>
-</div>
-
-
-  <div class="blog-detail">
-    
-<nav class="blog-detail-nav desktop-only">
-  <ul class="clearfix">
-    <li class="selected">
-      <a href="/">Overview</a></li>
-    <li class="">
-      <a href="/archives">Posts <span class="counter">9</span></a>
-    </li>
-    <li class="">
-      <a href="/categories">Categories <span class="counter">0</span></a></li>
-    <li class="">
-      <a href="/tags">Tags <span class="counter">8</span></a></li>
-  </ul>
 </nav>
 
-    <div class="body-secondary">
+<main class="container">
+  <header>
+  <h2>
+    <i class="fa fa-book text-muted"></i>
+    <a href="/">全干程序员</a>
+    
+    
+  </h2>
+  <div class="header-btn">
+    <div class="btn-group">
+      <a href="/archives" class="btn btn-group-left"><i class="fa fa-file-text"></i> Posts </a>
+      <a href="/archives" class="btn btn-group-right"> 9 </a>
+    </div>
 
-      
-      
+    <div class="btn-group">
+      <a href="/tags" class="btn btn-group-left"><i class="fa fa-tags"></i> Tags </a>
+      <a href="/tags" class="btn btn-group-right"> 8 </a>
+    </div>
+
+    <div class="btn-group">
+      <a href="/categories" class="btn btn-group-left"><i class="fa fa-list-ul"></i> Categories </a>
+      <a href="/categories" class="btn btn-group-right"> 0 </a>
     </div>
   </div>
-</div>
-</div>
+</header>
 
-<div class="footer-wrapper container">
-  <footer class="footer clearfix">
-    <a href="http://yoursite.com" class="footer-logo">
-      <i class="fa fa-github"></i>
-    </a>
-    <ul class="footer-social-link">
-      <li>© 2016 wizhidev&amp;huang</li>
-      <li><a href="http://yoursite.com">Home</a></li>
-      
-    </ul>
-    <div class="footer-theme-info">
-      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
-      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
-    </div>
-  </footer>
-</div>
+
+
+
+</main>
+
+<footer class="container clearfix">
+  <ul class="social-link">
+    <li>© 2016 wizhidev&amp;huang</li>
+
+    <li><a href="http://yoursite.com">Home</a></li>
+    
+  </ul>
+  <div class="theme-info">
+    Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+    by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+  </div>
+  <a href="http://yoursite.com" class="site-logo"><i class="fa fa-github"></i></a>
+</footer>
+
+
+
 
 
 
