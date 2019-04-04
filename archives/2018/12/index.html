@@ -16,224 +16,122 @@
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
 
-  <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
+  <link rel="shortcut icon" type="image/ico" href="/favicon.ico">
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  
-
-  
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 </head>
 
-<body id="replica-app">
 
-<nav class="navbar-wrapper">
-  <div class="navbar">
-    <div class="container clearfix">
-      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+<body>
+  <nav>
+  <div class="container">
+    <a href="/" class="site-logo"><i class="fa fa-github"></i></a>
 
-      <div class="navbar-search float-left desktop-only">
-        <div class="navbar-search-form">
-          <label for="gsc-i-id1">This website</label>
-          <div id="google-search">
-            <gcse:search></gcse:search>
-          </div>
-        </div>
-      </div>
-
-      <ul class="navbar-nav float-left">
-        
-        <li><a href="/archives">Archives</a></li>
-        
-        
-        <li><a href="/categories">Categories</a></li>
-        
-        
-        <li><a href="/tags">Tags</a></li>
-        
-        
-        <li><a href="/atom.xml" target="_blank">RSS</a></li>
-        
-      </ul>
-
-      <ul class="navbar-nav user-nav float-right desktop-only">
-        <li class="user-nav-notification">
-          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
-        </li>
-        <li>
-          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
-        </li>
-        <li class="user-nav-logo">
-          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div class="main-container">
-  
-
-<div class="container-lg">
-  
-
-<div class="blog-intro">
-  <div class="blog-intro-user">
-    <img class="avatar" src="https://octodex.github.com/images/baracktocat.jpg">
-    <div class="user-name">
-      <div class="blog-title">全干程序员</div>
-      <div class="blog-author">wizhidev&amp;huang</div>
-        <ul class="user-detail mobile-only">
-    
-    <li>
-      <i class="fa fa-link"></i>
-      <a href="http://yoursite.com">http://yoursite.com</a>
-    </li>
-  </ul>
-    </div>
-    <div class="blog-description">
-      
-    </div>
-  </div>
-
-  <ul class="user-detail desktop-only">
-    
-    <li>
-      <i class="fa fa-link"></i>
-      <a href="http://yoursite.com">http://yoursite.com</a>
-    </li>
-  </ul>
-
-  <div class="social-media desktop-only">
-    <h4>Social Media</h4>
     <ul>
+      
+      <li><a href="/archives">Archives</a>
+      </li>
+      
+      
+      <li><a href="/categories">Categories</a>
+      </li>
+      
+      
+      <li><a href="/tags">Tags</a></li>
+      
+      
+      <li><a href="/atom.xml">RSS</a></li>
       
     </ul>
   </div>
-</div>
-
-
-  <div class="blog-detail">
-    
-<nav class="blog-detail-nav desktop-only">
-  <ul class="clearfix">
-    <li class="">
-      <a href="/">Overview</a></li>
-    <li class="selected">
-      <a href="/archives">Posts <span class="counter">9</span></a>
-    </li>
-    <li class="">
-      <a href="/categories">Categories <span class="counter">0</span></a></li>
-    <li class="">
-      <a href="/tags">Tags <span class="counter">8</span></a></li>
-  </ul>
 </nav>
+  <main class="container">
+    
+<header>
+  <h2>
+    <i class="fa fa-book text-muted"></i>
+    <a href="/">全干程序员</a>
+    
+    
+  </h2>
+  <div class="header-btn">
+    <div class="btn-group">
+      <a href="/archives" class="btn btn-group-left"><i class="fa fa-file-text"></i> Posts </a>
+      <a href="/archives" class="btn btn-group-right"> 9 </a>
+    </div>
 
-    <div class="body-secondary">
-      <ul class="archive-list">
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/12/15/关于学习/">关于学习</a></h2>
-          <p>
-             什么是读书？ 读书是向外的，称之为看。  
+    <div class="btn-group">
+      <a href="/tags" class="btn btn-group-left"><i class="fa fa-tags"></i> Tags </a>
+      <a href="/tags" class="btn btn-group-right"> 8 </a>
+    </div>
+
+    <div class="btn-group">
+      <a href="/categories" class="btn btn-group-left"><i class="fa fa-list-ul"></i> Categories </a>
+      <a href="/categories" class="btn btn-group-right"> 0 </a>
+    </div>
+  </div>
+</header>
+
+
+<div class="archive">
+<h2><a href="/2018/12/15/关于学习/">关于学习</a></h2>
+<p class="read-more">
+   什么是读书？ 读书是向外的，称之为看。  
  什么是静坐？ 静坐是向内的，称之为观  
    说看  优秀的人永远对生活充满好奇心。 对他们来说这不叫 “好奇”，而是刷新认知的边界 。通常来说，一个人的判断决策和行为方式，取决于他的经历和知识。 
- 你对这个世界的认知决定了你在多大的范围内把握机会...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item">学习</li>
-            
-          </ul>
-          <div class="post-info">
-            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
-            <span><i class="fa fa-tag"></i> 1 </span>
-            <span>Published {{moment(1544881652000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/12/15/创业的几点建议/">创业的几点建议</a></h2>
-          <p>
-             
+ 你对这个世界的认知决定了你在多大的范围内把握机会。它不应该是一种业余爱好，而是你能够 保持思维先进性和机遇洞察的必备手段 。 
+  1、向高人求教。
+</p>
+</div>
+
+<div class="archive">
+<h2><a href="/2018/12/15/创业的几点建议/">创业的几点建议</a></h2>
+<p class="read-more">
+   
   先兼职完成探索的闭环，赚到第一块钱，兼职完不成赚一块钱的目标，全职也很难 ，只有当闭环走完，明显的瓶颈出现在时间投入上时，全职才有意义。 
-  做好至少半年以上没有收入的准备 ，特别是做产品，没有几个月的打磨产品，产品是不可用状态，现金压力太大，动作会变形，动作变形，产品做不好，进入恶性循环...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item">创业</li>
-            
-          </ul>
-          <div class="post-info">
-            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
-            <span><i class="fa fa-tag"></i> 1 </span>
-            <span>Published {{moment(1544881607000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/12/15/git-flow工作流/">git-flow工作流</a></h2>
-          <p>
-             git-flow是当前非常流行的项目工作流程，可以在团队中行程一个特定有效的工作流程，解决团队开发中版本控制出现的混乱。 
+  做好至少半年以上没有收入的准备 ，特别是做产品，没有几个月的打磨产品，产品是不可用状态，现金压力太大，动作会变形，动作变形，产品做不好，进入恶性循环。 
+ 先复制别人的模式，很多看起来轻松简单赚钱的事情，自己动手去试试，就发现没有那么简单，但也不要
+</p>
+</div>
+
+<div class="archive">
+<h2><a href="/2018/12/15/git-flow工作流/">git-flow工作流</a></h2>
+<p class="read-more">
+   git-flow是当前非常流行的项目工作流程，可以在团队中行程一个特定有效的工作流程，解决团队开发中版本控制出现的混乱。 
     git-flow    git-flow并不是替代git，它扩展了很多命令，这些命令可以在预定义的顺序下自动执行多个操作。
-     安装方法  mac平台安装git...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item">gitflow</li>
-            
-          </ul>
-          <div class="post-info">
-            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
-            <span><i class="fa fa-tag"></i> 1 </span>
-            <span>Published {{moment(1544880429000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/12/15/cmake调用第三方库/">cmake调用第三方库</a></h2>
-          <p>
-                  1   2   3   4   5   6   7   8   9   10   11        set (LIBSOCK_DIR /Users/hwp/work/eton_prj/smart_house_prj/source_demo/AndroidJni/app/libs/)  ...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item">cmake 第三方库</li>
-            
-          </ul>
-          <div class="post-info">
-            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
-            <span><i class="fa fa-tag"></i> 1 </span>
-            <span>Published {{moment(1544880357000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/">为什么 pymysql 重连后才能查到新添加的数据</a></h2>
-          <p>
-               背景描述  项目中需要定时查询最新的环境采集数据，然后推送到 web 页面展示。 
+     安装方法  mac平台安装git-flow方法 
+      1       brew install git-flow      
+</p>
+</div>
+
+<div class="archive">
+<h2><a href="/2018/12/15/cmake调用第三方库/">cmake调用第三方库</a></h2>
+<p class="read-more">
+        1   2   3   4   5   6   7   8   9   10   11        set (LIBSOCK_DIR /Users/hwp/work/eton_prj/smart_house_prj/source_demo/AndroidJni/app/libs/)   add_library(               test-lib              
+</p>
+</div>
+
+<div class="archive">
+<h2><a href="/2018/12/15/为什么-pymysql-重连后才能查到新添加的数据/">为什么 pymysql 重连后才能查到新添加的数据</a></h2>
+<p class="read-more">
+     背景描述  项目中需要定时查询最新的环境采集数据，然后推送到 web 页面展示。 
    还原问题  
  在 python 中使用了 pymsql 操作 mysql 数据库。 
  查询数据的时候，从数据库中读取一条数据之后，后面查到的数据永远不变。 
- 只有重启程序重新建立连接之后，才能获取到...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item">pymysql</li>
-            
-          </ul>
-          <div class="post-info">
-            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
-            <span><i class="fa fa-tag"></i> 1 </span>
-            <span>Published {{moment(1544879796000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/12/15/python-基于-Pandas-数据处理/">python 基于 Pandas 数据处理</a></h2>
-          <p>
-             项目中需要把实时采集到的环境监测数据，进行分类汇总，所以借助 Pandas 进行数据处理。 
+ 只有重启程序重新建立连接之后，才能获取到最新的数据。 
+ 
+   查询代码    
+   查询结果    
+ 如图所示，查询结果永远是 ID
+</p>
+</div>
+
+<div class="archive">
+<h2><a href="/2018/12/15/python-基于-Pandas-数据处理/">python 基于 Pandas 数据处理</a></h2>
+<p class="read-more">
+   项目中需要把实时采集到的环境监测数据，进行分类汇总，所以借助 Pandas 进行数据处理。 
  原始数据格式 
    
  采集数据主要是 PM2.5、温度、湿度、甲醛，时间间隔是20秒左右。 
@@ -241,74 +139,46 @@
  
  每天中截止统计时间PM2.5的最小值 
  获取4种类型的最新的采集数据 
- 每...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item">Pandas</li>
-            
-          </ul>
-          <div class="post-info">
-            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
-            <span><i class="fa fa-tag"></i> 1 </span>
-            <span>Published {{moment(1544879573000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/12/15/使用-supervisor-管理进程/">使用 supervisor 管理进程</a></h2>
-          <p>
-             Supervisor ( http://supervisord.org ) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item">supervisor 管理进程</li>
-            
-          </ul>
-          <div class="post-info">
-            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
-            <span><i class="fa fa-tag"></i> 1 </span>
-            <span>Published {{moment(1544878286000).fromNow()}}</span>
-          </div>
-        </li>
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/12/15/hello-world/">Hello World</a></h2>
-          <p>
-             Welcome to  Hexo ! This is your very first post. Check  documentation  for more info. If you get any problems when using Hexo, you can find the answe...
-          </p>
-          <ul class="tag-list clearfix">
-            
-          </ul>
-          <div class="post-info">
-            <span><i class="fa fa-folder-open"></i> Uncategorized </span>
-            <span><i class="fa fa-tag"></i> 0 </span>
-            <span>Published {{moment(1544876567440).fromNow()}}</span>
-          </div>
-        </li>
-        
-      </ul>
-    </div>
-  </div>
-</div>
+ 每个月的4种类型数据的平均值 
+ 每天中从早上8点开始，间隔1个小时的 PM2.5、温度、湿度数据 
+
+</p>
 </div>
 
-<div class="footer-wrapper container">
-  <footer class="footer clearfix">
-    <a href="http://yoursite.com" class="footer-logo">
-      <i class="fa fa-github"></i>
-    </a>
-    <ul class="footer-social-link">
-      <li>© 2016 wizhidev&amp;huang</li>
-      <li><a href="http://yoursite.com">Home</a></li>
-      
-    </ul>
-    <div class="footer-theme-info">
-      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
-      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
-    </div>
-  </footer>
+<div class="archive">
+<h2><a href="/2018/12/15/使用-supervisor-管理进程/">使用 supervisor 管理进程</a></h2>
+<p class="read-more">
+   Supervisor ( http://supervisord.org ) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以用 supervisor 同时启动所有应用程序而不是一个一个地敲命令启动。 
+   安装  服务器我
+</p>
 </div>
+
+<div class="archive">
+<h2><a href="/2018/12/15/hello-world/">Hello World</a></h2>
+<p class="read-more">
+   Welcome to  Hexo ! This is your very first post. Check  documentation  for more info. If you get any problems when using Hexo, you can find the answer in  troubleshooting  or you can ask me on  GitHu
+</p>
+</div>
+
+
+  </main>
+  
+<footer class="container clearfix">
+  <ul class="social-link">
+    <li>© 2016 wizhidev&amp;huang</li>
+
+    <li><a href="http://yoursite.com">Home</a></li>
+    
+  </ul>
+  <div class="theme-info">
+    Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+    by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+  </div>
+  <a href="http://yoursite.com" class="site-logo"><i class="fa fa-github"></i></a>
+</footer>
+
+  
+
 
 
 
@@ -316,4 +186,5 @@
 <script src="/js/main.js"></script>
 
 </body>
+
 </html>
